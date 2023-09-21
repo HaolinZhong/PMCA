@@ -1,0 +1,38 @@
+{
+    "manifest_version": 2,
+    "name": "PMCA",
+    "version": "0.0.1",
+    "author": "Haolin Zhong",
+    "description": "PMCA tracks your LeetCode progress and formulate review plans for you.",
+    "homepage_url": "https://github.com/HaolinZhong/PMCA",
+    "icons": {
+        "128": "assets/logo2.png",
+        "48": "assets/logo2.png",
+        "16": "assets/logo2.png"
+    },
+    "browser_action": {
+        "default_icon": "assets/logo2.png",
+        "default_popup": "popup.html"
+    },
+    "background": {},
+    "permissions": [
+        "https://github.com/*",
+        "https://api.github.com/*",
+        "https://leetcode.com/*",
+        "https://practice.geeksforgeeks.org/*",
+        "tabs",
+        "unlimitedStorage",
+        "storage"
+    ],
+    "content_scripts": [
+        {
+            "matches": [
+                "https://leetcode.com/*"
+            ],
+            "js": [
+                "scripts/leetcode.js"
+            ],
+            "run_at": "document_idle"
+        }
+    ]
+}
