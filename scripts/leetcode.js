@@ -2,7 +2,7 @@
 console.log(`Hello PMCA!`);
 
 // webpage classnames
-const SUCCESS_CLASSNAME = "success__3Ai7 marked_as_success";
+const SUCCESS_CLASSNAME = "success__3Ai7";
 const WRONG_ANSWER_CLASSNAME = "error__2Ft1";
 const COMPILE_ERROR_AND_TLE_CLASSNAME = "error__10k9";
 const PROBLEM_NAME_CLASSNAME = "css-v3d350";
@@ -50,7 +50,7 @@ const needReview = (problem) => {
 
     const currentTime = Date.now();
     const timeDiffInMinute = (currentTime - problem.submissionTime) / (1000 * 60);
-
+    console.log(`timeDiffInMinute: ${timeDiffInMinute}`);
     return timeDiffInMinute >= forggetingCurve[problem.proficiency];
 };
 
@@ -153,7 +153,7 @@ const monitorSubmissionResult = () => {
         console.log(submissionResult.className);
 
         clearInterval(functionId);
-        let isSuccess = submissionResult.className === SUCCESS_CLASSNAME;
+        let isSuccess = submissionResult.className.includes(SUCCESS_CLASSNAME);
         console.log(submissionResult.className)
 
         const submissionTime = Date.now();
