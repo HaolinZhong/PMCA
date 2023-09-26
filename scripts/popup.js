@@ -91,10 +91,7 @@ const create_completed_problem_record = (problem) => {
 ;
 }
 
-
-const PAGE_SIZE = 5;
-
-const create_review_table_content = (problems, page) => {
+const create_review_table_content = (problems) => {
     let content_html = 
     '\
     <thead>\
@@ -113,35 +110,14 @@ const create_review_table_content = (problems, page) => {
     })
 
     let keys = Object.keys(problems);
-    for (let i = (page - 1) * PAGE_SIZE; i < Math.min(page * PAGE_SIZE, keys.length); i++) {
-        content_html += create_review_problem_record(problems[keys[i]]) + '\n';
+    for (const i of keys) {
+        content_html += create_completed_problem_record(problems[i]) + '\n';
     }
     content_html += `</tbody>`
-
-    if (problems.length > 0) {
-        content_html += 
-        `\
-        <nav aria-label="..."  class = "my-2">\
-            <ul class="pagination pagination-sm" id="completed_pagination">\
-        `;
-
-        const pageNumber = Math.ceil(problems.length / PAGE_SIZE);
-
-        for (let i = 0; i < pageNumber; i++) {
-            content_html += `<li class="page-item ${page === i + 1? "active" : ""}" >${i+1}</li>`
-        }
-
-        content_html += 
-        `\
-            </ul>\
-        </nav>\
-        `
-    }
-
     return content_html;
 }
 
-const create_schedule_table_content = (problems, page) => {
+const create_schedule_table_content = (problems) => {
     let content_html = 
     '\
     <thead>\
@@ -160,35 +136,14 @@ const create_schedule_table_content = (problems, page) => {
     })
 
     let keys = Object.keys(problems);
-    for (let i = (page - 1) * PAGE_SIZE; i < Math.min(page * PAGE_SIZE, keys.length); i++) {
-        content_html += create_schedule_problem_record(problems[keys[i]]) + '\n';
+    for (const i of keys) {
+        content_html += create_completed_problem_record(problems[i]) + '\n';
     }
     content_html += `</tbody>`
-
-    if (problems.length > 0) {
-        content_html += 
-        `\
-        <nav aria-label="..."  class = "my-2">\
-            <ul class="pagination pagination-sm" id="completed_pagination">\
-        `;
-
-        const pageNumber = Math.ceil(problems.length / PAGE_SIZE);
-
-        for (let i = 0; i < pageNumber; i++) {
-            content_html += `<li class="page-item ${page === i + 1 ? "active" : ""}" >${i+1}</li>`
-        }
-
-        content_html += 
-        `\
-            </ul>\
-        </nav>\
-        `
-    }
-
     return content_html;
 }
 
-const create_completed_table_content = (problems, page) => {
+const create_completed_table_content = (problems) => {
     let content_html = 
     '\
     <thead>\
@@ -206,30 +161,10 @@ const create_completed_table_content = (problems, page) => {
     })
 
     let keys = Object.keys(problems);
-    for (let i = (page - 1) * PAGE_SIZE; i < Math.min(page * PAGE_SIZE, keys.length); i++) {
-        content_html += create_completed_problem_record(problems[keys[i]]) + '\n';
+    for (const i of keys) {
+        content_html += create_completed_problem_record(problems[i]) + '\n';
     }
     content_html += `</tbody>`
-
-    if (problems.length > 0) {
-        content_html += 
-        `\
-        <nav aria-label="..." class = "my-2">\
-            <ul class="pagination pagination-sm" id="completed_pagination">\
-        `;
-
-        const pageNumber = Math.ceil(problems.length / PAGE_SIZE);
-
-        for (let i = 0; i < pageNumber; i++) {
-            content_html += `<li class="page-item ${page === i + 1? "active" : ""}" >${i+1}</li>`
-        }
-
-        content_html += 
-        `\
-            </ul>\
-        </nav>\
-        `
-    }
 
     return content_html;
 }
@@ -251,9 +186,9 @@ const display_table = (cnMode) => {
         const needReviewProblems = problems.filter(p => needReview(p));
         const completedProblems = problems.filter(p => p.proficiency === 5);
         const reviewScheduledProblems = problems.filter(p => !needReview(p) && p.proficiency < 5);
-        document.getElementById("need-review-table").innerHTML = create_review_table_content(needReviewProblems, 1);
-        document.getElementById("no-review-table").innerHTML = create_schedule_table_content(reviewScheduledProblems, 1);
-        document.getElementById("completed-table").innerHTML = create_completed_table_content(completedProblems, 1);
+        document.getElementById("need-review-table").innerHTML = create_review_table_content(needReviewProblems);
+        document.getElementById("no-review-table").innerHTML = create_schedule_table_content(reviewScheduledProblems);
+        document.getElementById("completed-table").innerHTML = create_completed_table_content(completedProblems);
     })
 }
 
@@ -268,24 +203,4 @@ document.getElementById("switchButton").addEventListener('click', (event) => {
 
 
 display_table(cnMode);
-
-
-const change_page = (page, tab) => {
-    const queryKey = cnMode ? "cn_records" : "records";
-    chrome.storage.local.get(queryKey, (result) => {
-        const problems = Object.values(result[queryKey]);
-
-        if (tab === "review") {
-            const needReviewProblems = problems.filter(p => needReview(p));
-            document.getElementById("need-review-table").innerHTML = create_review_table_content(needReviewProblems, page);
-        } else if (tab === "schedule") {
-            const reviewScheduledProblems = problems.filter(p => !needReview(p) && p.proficiency < 5);
-            document.getElementById("no-review-table").innerHTML = create_schedule_table_content(reviewScheduledProblems, 1);
-        } else if (tab === "completed") {
-            const completedProblems = problems.filter(p => p.proficiency === 5);
-            document.getElementById("completed-table").innerHTML = create_completed_table_content(completedProblems, page);
-        }
-        
-    })
-}
 
