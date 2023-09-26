@@ -170,37 +170,61 @@ const create_completed_table_content = (problems) => {
 }
 
 
-const display_table = (cnMode) => {
+const display_table = () => {
     
-    const labelDom = document.getElementById("siteLabel");
-    if (cnMode) {
-        labelDom.innerHTML = "LeetCode - China ";
-    } else {
-        labelDom.innerHTML = "LeetCode - Global";
-    }
-    
-    const queryKey = cnMode ? "cn_records" : "records";
-    chrome.storage.local.get(queryKey, (result) => {
-        const problems = Object.values(result[queryKey]);
+    chrome.storage.local.get('cn_mode', (result) => {
+        let cnMode;
+        if (result.cn_mode === undefined) {
+            cnMode = false;
+        } else {
+            cnMode = result.cn_mode;
+        }
 
-        const needReviewProblems = problems.filter(p => needReview(p));
-        const completedProblems = problems.filter(p => p.proficiency === 5);
-        const reviewScheduledProblems = problems.filter(p => !needReview(p) && p.proficiency < 5);
-        document.getElementById("need-review-table").innerHTML = create_review_table_content(needReviewProblems);
-        document.getElementById("no-review-table").innerHTML = create_schedule_table_content(reviewScheduledProblems);
-        document.getElementById("completed-table").innerHTML = create_completed_table_content(completedProblems);
+        console.log(`current in cn_mode: ${cnMode}`);
+
+
+        const switchButtonDom = document.getElementById("switchButton");
+        if (cnMode) {
+            switchButtonDom.setAttribute("checked", "checked");
+        } else {
+            switchButtonDom.removeAttribute("checked");
+        }
+
+        const labelDom = document.getElementById("siteLabel");
+        if (cnMode) {
+            labelDom.innerHTML = "LeetCode - China ";
+        } else {
+            labelDom.innerHTML = "LeetCode - Global";
+        }
+        
+        const queryKey = cnMode ? "cn_records" : "records";
+        chrome.storage.local.get(queryKey, (result) => {
+            const problems = Object.values(result[queryKey]);
+    
+            const needReviewProblems = problems.filter(p => needReview(p));
+            const completedProblems = problems.filter(p => p.proficiency === 5);
+            const reviewScheduledProblems = problems.filter(p => !needReview(p) && p.proficiency < 5);
+            document.getElementById("need-review-table").innerHTML = create_review_table_content(needReviewProblems);
+            document.getElementById("no-review-table").innerHTML = create_schedule_table_content(reviewScheduledProblems);
+            document.getElementById("completed-table").innerHTML = create_completed_table_content(completedProblems);
+        })
     })
 }
 
-
-
-let cnMode = false;
-
 document.getElementById("switchButton").addEventListener('click', (event) => {
-    cnMode = !cnMode;
-    display_table(cnMode);
+    chrome.storage.local.get('cn_mode', (result) => {
+        let cnMode;
+        if (result.cn_mode === undefined) {
+            cnMode = false;
+        } else {
+            cnMode = result.cn_mode;
+        }
+
+        chrome.storage.local.set({'cn_mode': !cnMode});
+        console.log(`changed cn_mode to ${!cnMode}`);
+        display_table();
+    });
 });
 
-
-display_table(cnMode);
+display_table();
 
