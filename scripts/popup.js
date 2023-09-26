@@ -41,7 +41,7 @@ const create_review_problem_record = (problem) => {
     const htmlTag = 
     `\
     <tr>\
-        <td><a target="_blank" href=${problem.url}><small>${problem.name}</small><a/></td>\
+        <td style="width: 40%;"><a target="_blank" href=${problem.url}><small>${problem.name}</small><a/></td>\
         <td>\
             <div class="progress" role="progressbar" aria-label="Success example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">\
                 <div class="progress-bar progress-bar-striped bg-success" style="width: ${problem.proficiency / 5 * 100}%; font-size: smaller; color: black"><small><small><small>${problem.proficiency / 5 * 100}%</small></small></small></div>\
@@ -57,10 +57,11 @@ const create_review_problem_record = (problem) => {
 
 const create_schedule_problem_record = (problem) => {
     const nextReviewDate = getNextReviewTime(problem);
+    console.log(nextReviewDate);
     const htmlTag = 
     `\
     <tr>\
-        <td><a target="_blank" href=${problem.url}><small>${problem.name}</small><a/></td>\
+        <td style="width: 40%;"><a target="_blank" href=${problem.url}><small>${problem.name}</small><a/></td>\
         <td>\
             <div class="progress" role="progressbar" aria-label="Success example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">\
                 <div class="progress-bar progress-bar-striped bg-success" style="width: ${problem.proficiency / 5 * 100}%; font-size: smaller; color: black"><small><small><small>${problem.proficiency / 5 * 100}%</small></small></small></div>\
@@ -78,7 +79,7 @@ const create_completed_problem_record = (problem) => {
     const htmlTag = 
     `\
     <tr>\
-        <td><a target="_blank" href=${problem.url}><small>${problem.name}</small><a/></td>\
+        <td style="width: 40%;"><a target="_blank" href=${problem.url}><small>${problem.name}</small><a/></td>\
         <td>\
             <div class="progress" role="progressbar" aria-label="Success example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">\
                 <div class="progress-bar progress-bar-striped bg-success" style="width: ${problem.proficiency / 5 * 100}%; font-size: smaller; color: black"><small><small><small>${problem.proficiency / 5 * 100}%</small></small></small></div>\
@@ -111,7 +112,7 @@ const create_review_table_content = (problems) => {
 
     let keys = Object.keys(problems);
     for (const i of keys) {
-        content_html += create_completed_problem_record(problems[i]) + '\n';
+        content_html += create_review_problem_record(problems[i]) + '\n';
     }
     content_html += `</tbody>`
     return content_html;
@@ -137,7 +138,7 @@ const create_schedule_table_content = (problems) => {
 
     let keys = Object.keys(problems);
     for (const i of keys) {
-        content_html += create_completed_problem_record(problems[i]) + '\n';
+        content_html += create_schedule_problem_record(problems[i]) + '\n';
     }
     content_html += `</tbody>`
     return content_html;
