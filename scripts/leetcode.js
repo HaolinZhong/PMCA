@@ -26,21 +26,14 @@ class Problem {
 
 
 // Ebbinghaus utils
-// const forggetingCurve = [
-//     1 * 24 * 60,    // 1 day
-//     2 * 24 * 60,    // 2 day
-//     4 * 24 * 60,    // 4 day
-//     7 * 24 * 60,    // 7 day
-//     15 * 24 * 60    // 15 day
-// ];
-
 const forggetingCurve = [
-    1,    // 1 day
-    1,    // 2 day
-    1,    // 4 day
-    1,    // 7 day
-    1    // 15 day
+    1 * 24 * 60,    // 1 day
+    2 * 24 * 60,    // 2 day
+    4 * 24 * 60,    // 4 day
+    7 * 24 * 60,    // 7 day
+    15 * 24 * 60    // 15 day
 ];
+
 
 
 const needReview = (problem) => {
@@ -75,17 +68,6 @@ const readConfig = () => {
     })
 }
 
-// const getDifficultyBasedCurve = (diffculty) => {
-//     let adjustedCurve;
-//     if (diffculty === "Easy") {
-//         adjustedCurve = easy_proficiency_steps.map(i => forggetingCurve[i]);
-//     } else if (diffculty === "Medium") {
-//         adjustedCurve = medium_proficiency_steps.map(i => forggetingCurve[i]);
-//     } else {
-//         adjustedCurve = hard_proficiency_steps.map(i => forggetingCurve[i]);
-//     }
-//     return adjustedCurve;
-// }
 
 const getDifficultyBasedSteps = (diffculty) => {
     if (diffculty === "Easy") {
