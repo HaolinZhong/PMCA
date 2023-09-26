@@ -16,10 +16,8 @@
     },
     "background": {},
     "permissions": [
-        "https://github.com/*",
-        "https://api.github.com/*",
         "https://leetcode.com/*",
-        "https://practice.geeksforgeeks.org/*",
+        "https://leetcode.ccn/*",
         "tabs",
         "unlimitedStorage",
         "storage"
@@ -31,6 +29,15 @@
             ],
             "js": [
                 "scripts/leetcode.js"
+            ],
+            "run_at": "document_idle"
+        },
+        {
+            "matches": [
+                "https://leetcode.cn/*"
+            ],
+            "js": [
+                "scripts/leetcodecn.js"
             ],
             "run_at": "document_idle"
         }

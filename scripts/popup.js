@@ -8,6 +8,18 @@ const forggetingCurve = [
 
 const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
+const needReview = (problem) => {
+    if (problem.proficiency >= forggetingCurve.length) {
+        return false;
+    }
+
+    const currentTime = Date.now();
+    const timeDiffInMinute = (currentTime - problem.submissionTime) / (1000 * 60);
+    console.log(`timeDiffInMinute: ${timeDiffInMinute}`);
+    return timeDiffInMinute >= forggetingCurve[problem.proficiency];
+};
+
+
 const decorateProblemLevel = (level) => {
     let color;
     if (level === "Easy") {
@@ -20,8 +32,31 @@ const decorateProblemLevel = (level) => {
     return `<p style="color: ${color}">${level}</p>`
 }
 
-const create_problem_record = (problem) => {
-    const nextReviewDate = new Date(problem.submissionTime + forggetingCurve[problem.proficiency] * 60 * 1000);
+const getNextReviewTime = (problem) => {
+    return new Date(problem.submissionTime + forggetingCurve[problem.proficiency] * 60 * 1000);
+}
+
+const create_review_problem_record = (problem) => {
+    const nextReviewDate = getNextReviewTime(problem);
+    const htmlTag = 
+    `\
+    <tr>\
+        <td><a target="_blank" href=${problem.url}><small>${problem.name}</small><a/></td>\
+        <td>\
+            <div class="progress" role="progressbar" aria-label="Success example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">\
+                <div class="progress-bar progress-bar-striped bg-success" style="width: ${problem.proficiency / 5 * 100}%; font-size: smaller; color: black"><small><small><small>${problem.proficiency / 5 * 100}%</small></small></small></div>\
+            </div>\
+        </td>\
+        <td><small>${decorateProblemLevel(problem.level)}</small></td>\
+        <td><small>${Math.round((Date.now() - nextReviewDate) / (60 * 1000))} hours</small></td>\
+    </tr>\
+    `;
+    return htmlTag; 
+;
+}
+
+const create_schedule_problem_record = (problem) => {
+    const nextReviewDate = getNextReviewTime(problem);
     const htmlTag = 
     `\
     <tr>\
@@ -39,34 +74,218 @@ const create_problem_record = (problem) => {
 ;
 }
 
+const create_completed_problem_record = (problem) => {
+    const htmlTag = 
+    `\
+    <tr>\
+        <td><a target="_blank" href=${problem.url}><small>${problem.name}</small><a/></td>\
+        <td>\
+            <div class="progress" role="progressbar" aria-label="Success example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">\
+                <div class="progress-bar progress-bar-striped bg-success" style="width: ${problem.proficiency / 5 * 100}%; font-size: smaller; color: black"><small><small><small>${problem.proficiency / 5 * 100}%</small></small></small></div>\
+            </div>\
+        </td>\
+        <td><small>${decorateProblemLevel(problem.level)}</small></td>\
+    </tr>\
+    `;
+    return htmlTag; 
+;
+}
 
 
-const create_table_content = (problems) => {
+const PAGE_SIZE = 5;
+
+const create_review_table_content = (problems, page) => {
     let content_html = 
     '\
     <thead>\
         <tr style="font-size: smaller">\
             <th>Problem</th>\
             <th>Progress</th>\
-            <th>Difficulty</th>\
-            <th>NextReviewTime</th>\
+            <th>Level</th>\
+            <th>Delay</th>\
         </tr>\
     </thead>\
     <tbody>\
     ';
+
+    problems.sort((p1, p2) => {
+        return getNextReviewTime(p1).valueOf() - getNextReviewTime(p2).valueOf();
+    })
+
     let keys = Object.keys(problems);
-    for (const i of keys) {
-        content_html += create_problem_record(problems[i]) + '\n';
+    for (let i = (page - 1) * PAGE_SIZE; i < Math.min(page * PAGE_SIZE, keys.length); i++) {
+        content_html += create_review_problem_record(problems[keys[i]]) + '\n';
     }
     content_html += `</tbody>`
+
+    if (problems.length > 0) {
+        content_html += 
+        `\
+        <nav aria-label="..."  class = "my-2">\
+            <ul class="pagination pagination-sm" id="completed_pagination">\
+        `;
+
+        const pageNumber = Math.ceil(problems.length / PAGE_SIZE);
+
+        for (let i = 0; i < pageNumber; i++) {
+            content_html += `<li class="page-item ${page === i + 1? "active" : ""}" >${i+1}</li>`
+        }
+
+        content_html += 
+        `\
+            </ul>\
+        </nav>\
+        `
+    }
+
     return content_html;
 }
 
-const display_table = () => {
-    chrome.storage.local.get("problems", (problems) => {
-        console.log(problems.problems);
-        document.getElementById("need-review-table").innerHTML = create_table_content(problems.problems);
+const create_schedule_table_content = (problems, page) => {
+    let content_html = 
+    '\
+    <thead>\
+        <tr style="font-size: smaller">\
+            <th>Problem</th>\
+            <th>Progress</th>\
+            <th>Level</th>\
+            <th>Review Time</th>\
+        </tr>\
+    </thead>\
+    <tbody>\
+    ';
+
+    problems.sort((p1, p2) => {
+        return getNextReviewTime(p1).valueOf() - getNextReviewTime(p2).valueOf();
+    })
+
+    let keys = Object.keys(problems);
+    for (let i = (page - 1) * PAGE_SIZE; i < Math.min(page * PAGE_SIZE, keys.length); i++) {
+        content_html += create_schedule_problem_record(problems[keys[i]]) + '\n';
+    }
+    content_html += `</tbody>`
+
+    if (problems.length > 0) {
+        content_html += 
+        `\
+        <nav aria-label="..."  class = "my-2">\
+            <ul class="pagination pagination-sm" id="completed_pagination">\
+        `;
+
+        const pageNumber = Math.ceil(problems.length / PAGE_SIZE);
+
+        for (let i = 0; i < pageNumber; i++) {
+            content_html += `<li class="page-item ${page === i + 1 ? "active" : ""}" >${i+1}</li>`
+        }
+
+        content_html += 
+        `\
+            </ul>\
+        </nav>\
+        `
+    }
+
+    return content_html;
+}
+
+const create_completed_table_content = (problems, page) => {
+    let content_html = 
+    '\
+    <thead>\
+        <tr style="font-size: smaller">\
+            <th>Problem</th>\
+            <th>Progress</th>\
+            <th>Level</th>\
+        </tr>\
+    </thead>\
+    <tbody>\
+    ';
+
+    problems.sort((p1, p2) => {
+        return p2.submissionTime - p1.submissionTime;
+    })
+
+    let keys = Object.keys(problems);
+    for (let i = (page - 1) * PAGE_SIZE; i < Math.min(page * PAGE_SIZE, keys.length); i++) {
+        content_html += create_completed_problem_record(problems[keys[i]]) + '\n';
+    }
+    content_html += `</tbody>`
+
+    if (problems.length > 0) {
+        content_html += 
+        `\
+        <nav aria-label="..." class = "my-2">\
+            <ul class="pagination pagination-sm" id="completed_pagination">\
+        `;
+
+        const pageNumber = Math.ceil(problems.length / PAGE_SIZE);
+
+        for (let i = 0; i < pageNumber; i++) {
+            content_html += `<li class="page-item ${page === i + 1? "active" : ""}" >${i+1}</li>`
+        }
+
+        content_html += 
+        `\
+            </ul>\
+        </nav>\
+        `
+    }
+
+    return content_html;
+}
+
+
+const display_table = (cnMode) => {
+    
+    const labelDom = document.getElementById("siteLabel");
+    if (cnMode) {
+        labelDom.innerHTML = "LeetCode - China ";
+    } else {
+        labelDom.innerHTML = "LeetCode - Global";
+    }
+    
+    const queryKey = cnMode ? "cn_records" : "records";
+    chrome.storage.local.get(queryKey, (result) => {
+        const problems = Object.values(result[queryKey]);
+
+        const needReviewProblems = problems.filter(p => needReview(p));
+        const completedProblems = problems.filter(p => p.proficiency === 5);
+        const reviewScheduledProblems = problems.filter(p => !needReview(p) && p.proficiency < 5);
+        document.getElementById("need-review-table").innerHTML = create_review_table_content(needReviewProblems, 1);
+        document.getElementById("no-review-table").innerHTML = create_schedule_table_content(reviewScheduledProblems, 1);
+        document.getElementById("completed-table").innerHTML = create_completed_table_content(completedProblems, 1);
     })
 }
 
-display_table();
+
+
+let cnMode = false;
+
+document.getElementById("switchButton").addEventListener('click', (event) => {
+    cnMode = !cnMode;
+    display_table(cnMode);
+});
+
+
+display_table(cnMode);
+
+
+const change_page = (page, tab) => {
+    const queryKey = cnMode ? "cn_records" : "records";
+    chrome.storage.local.get(queryKey, (result) => {
+        const problems = Object.values(result[queryKey]);
+
+        if (tab === "review") {
+            const needReviewProblems = problems.filter(p => needReview(p));
+            document.getElementById("need-review-table").innerHTML = create_review_table_content(needReviewProblems, page);
+        } else if (tab === "schedule") {
+            const reviewScheduledProblems = problems.filter(p => !needReview(p) && p.proficiency < 5);
+            document.getElementById("no-review-table").innerHTML = create_schedule_table_content(reviewScheduledProblems, 1);
+        } else if (tab === "completed") {
+            const completedProblems = problems.filter(p => p.proficiency === 5);
+            document.getElementById("completed-table").innerHTML = create_completed_table_content(completedProblems, page);
+        }
+        
+    })
+}
+

@@ -2,14 +2,11 @@
 console.log(`Hello PMCA!`);
 
 // webpage classnames
-const SUCCESS_CLASSNAME = "success__3Ai7";
-const WRONG_ANSWER_CLASSNAME = "error__2Ft1";
-const COMPILE_ERROR_AND_TLE_CLASSNAME = "error__10k9";
-const PROBLEM_NAME_CLASSNAME = "css-v3d350";
-const SUBMIT_BUTTON_CLASSNAME = "submit__2ISl";
-const LEVEL_EASY_CLASS_NAME = "css-14oi08n";
-const LEVEL_MEDIUM_CLASS_NAME = "css-dcmtd5";
-const LEVEL_HARD_CLASS_NAME = "css-t42afm";
+// 目前仅支持 双栏布局
+const SUCCESS_CLASSNAME = "text-green-s dark:text-dark-green-s flex flex-1 items-center gap-2 text-[16px] font-medium leading-6";
+const WRONG_ANSWER_CLASSNAME = "whitespace-nowrap text-xl font-medium text-red-s dark:text-dark-red-s";
+const COMPILE_ERROR_AND_TLE_CLASSNAME = "mr-1 flex-1 whitespace-nowrap text-xl font-medium text-red-s dark:text-dark-red-s";
+const SUBMIT_BUTTON_CLASSNAME = "py-1.5 font-medium items-center whitespace-nowrap focus:outline-none cursor-not-allowed opacity-50 inline-flex text-label-r bg-green-s dark:bg-dark-green-s hover:bg-green-3 dark:hover:bg-dark-green-3 h-[28px] select-none rounded px-5 text-[13px] leading-[18px]";
 
 
 // Problem object
@@ -75,18 +72,6 @@ const readConfig = () => {
     })
 }
 
-// const getDifficultyBasedCurve = (diffculty) => {
-//     let adjustedCurve;
-//     if (diffculty === "Easy") {
-//         adjustedCurve = easy_proficiency_steps.map(i => forggetingCurve[i]);
-//     } else if (diffculty === "Medium") {
-//         adjustedCurve = medium_proficiency_steps.map(i => forggetingCurve[i]);
-//     } else {
-//         adjustedCurve = hard_proficiency_steps.map(i => forggetingCurve[i]);
-//     }
-//     return adjustedCurve;
-// }
-
 const getDifficultyBasedSteps = (diffculty) => {
     if (diffculty === "Easy") {
         return easy_proficiency_steps;
@@ -97,25 +82,71 @@ const getDifficultyBasedSteps = (diffculty) => {
     }
 }
 
+const user_agent =
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.122 Safari/537.36";
+const url = "https://leetcode.cn/graphql";
+const params = {
+    operationName: "getQuestionDetail",
+    variables: { titleSlug: "" },
+    query: `query getQuestionDetail($titleSlug: String!) {
+      question(titleSlug: $titleSlug) {
+        questionId
+        translatedTitle
+        difficulty
+      }
+    }`,
+};
+const headers = {
+    'User-Agent': user_agent,
+    'Connection': 'keep-alive',
+    'Content-Type': 'application/json',
+    'Referer': "",
+};
+
+const queryProblemInfo = async (slug) => {
+
+    params.variables.titleSlug = slug;
+    headers.Referer = `https://leetcode.cn/problems/${slug}`
+
+    const requestOptions = {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(params),
+        timeout: 10000
+    };
+
+    const response = await fetch(url, requestOptions);
+    const content = await response.json();
+
+    return content.data.question;
+}
+
+
 /*
     Extract basic problem information
 */
-const extractProblemInfo = () => {
+const extractProblemInfo = async () => {
     let problemUrl = window.location.href;
-    if (problemUrl.endsWith("/submissions/")) {
-        problemUrl = problemUrl.substring(0, problemUrl.lastIndexOf("/submissions/") + 1);
+    const possible_suffix = ["/submissions/", "/description/", "/discussion/", "/solutions/"];
+    for (const suffix of possible_suffix) {
+        if (problemUrl.includes(suffix)) {
+            problemUrl = problemUrl.substring(0, problemUrl.lastIndexOf(suffix) + 1);
+            break;
+        }
     }
 
-    const problemName = document.getElementsByClassName(PROBLEM_NAME_CLASSNAME)[0].innerHTML;
-    const problemIndex = Number(problemName.substring(0, problemName.lastIndexOf(".")));
-    const problemLevelDom = document.getElementsByClassName(LEVEL_EASY_CLASS_NAME)[0] ||
-        document.getElementsByClassName(LEVEL_MEDIUM_CLASS_NAME)[0] ||
-        document.getElementsByClassName(LEVEL_HARD_CLASS_NAME);
-    const problemLevel = problemLevelDom.innerHTML;
+    const problemSlug = problemUrl.split("/").splice(-2)[0];
+    console.log(problemSlug);
+    console.log(problemUrl.split("/"));
+
+    const question = await queryProblemInfo(problemSlug);
+
+    console.log(question);
+
     return {
-        problemIndex,
-        problemName,
-        problemLevel,
+        problemIndex: question.questionId,
+        problemName: `${question.questionId}. ${question.translatedTitle}`,
+        problemLevel: question.difficulty,
         problemUrl
     };
 }
@@ -131,7 +162,7 @@ const monitorSubmissionResult = () => {
     const retryInterval = 1000;
     console.log(`monitor started!`);
 
-    const functionId = setInterval(() => {
+    const functionId = setInterval(async () => {
 
         if (maxRetry <= 0) {
             clearInterval(functionId);
@@ -156,14 +187,14 @@ const monitorSubmissionResult = () => {
         let isSuccess = submissionResult.className.includes(SUCCESS_CLASSNAME);
 
         const submissionTime = Date.now();
-        const { problemIndex, problemName, problemLevel, problemUrl } = extractProblemInfo();
+        const { problemIndex, problemName, problemLevel, problemUrl } = await extractProblemInfo();
 
         const steps = getDifficultyBasedSteps(problemLevel);
 
         const promise = new Promise((resolve, reject) => {
-            chrome.storage.local.get("records", (result) => {
+            chrome.storage.local.get("cn_records", (result) => {
                 console.log(result);
-                const problems = result.records;
+                const problems = result.cn_records;
                 if (problems === undefined || problems[problemIndex] === undefined) {
                     reject(problems);
                 } else {
@@ -190,7 +221,7 @@ const monitorSubmissionResult = () => {
                     // further review needed
                     if (nextProficiencyIndex !== undefined) {
                         problem.proficiency = nextProficiencyIndex;
-                    // already completed all review
+                        // already completed all review
                     } else {
                         problem.proficiency = forggetingCurve.length;
                     }
@@ -198,8 +229,8 @@ const monitorSubmissionResult = () => {
                     problem.submissionTime = submissionTime;
 
                     problems[problemIndex] = problem;
-                    chrome.storage.local.set({ "records": problems });
-                    chrome.storage.local.get("records", (result) => console.log(result.records));
+                    chrome.storage.local.set({ "cn_records": problems });
+                    chrome.storage.local.get("cn_records", (result) => console.log(result.cn_records));
                 } else {
                     console.log("review not needed");
                     console.log(problems);
@@ -218,8 +249,8 @@ const monitorSubmissionResult = () => {
 
                     problems[problemIndex] = problem;
 
-                    chrome.storage.local.set({"records": problems});
-                    chrome.storage.local.get("records", (result) => console.log(result.records));
+                    chrome.storage.local.set({ "cn_records": problems });
+                    chrome.storage.local.get("cn_records", (result) => console.log(result.cn_records));
                 } else {
                     console.log(`isSuccess: ${isSuccess}`);
                 }
@@ -236,17 +267,24 @@ const monitorSubmissionResult = () => {
 */
 
 document.addEventListener('click', (event) => {
+    
+    console.log("clicked");
+    
     const element = event.target;
 
     const filterConditions = [
-        element.classList.contains("submit__2ISl") && element.classList.contains("css-ieo3pr"),
-        element.parentElement.classList.contains("submit__2ISl") && element.parentElement.classList.contains("css-ieo3pr")
+        element.classList.value === SUBMIT_BUTTON_CLASSNAME
     ]
 
+
     const isSubmitButton = filterConditions.reduce((prev, curr) => prev || curr);
+
+    console.log(`isSubmit: ${isSubmitButton}`);
+    console.log(element.classList.value);
 
     if (isSubmitButton) {
         monitorSubmissionResult();
     }
 
 });
+
