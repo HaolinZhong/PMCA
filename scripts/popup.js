@@ -185,10 +185,22 @@ const display_table = () => {
 
 
         const switchButtonDom = document.getElementById("switchButton");
+        const donateButtonDom = document.getElementById("donateButton");
         if (cnMode) {
             switchButtonDom.setAttribute("checked", "checked");
+            donateButtonDom.innerHTML = `\
+            <button type="button" class="btn btn-outline-warning custom-btn"\ 
+                style="font-size: smaller; font-family: 'Noto Sans SC', sans-serif;"\
+                data-bs-toggle="modal" data-bs-target="#tipModal">打 &nbsp 赏</button>\
+            `
         } else {
             switchButtonDom.removeAttribute("checked");
+            donateButtonDom.innerHTML = `\
+            <a href="https://www.buymeacoffee.com/zhlien1998y" target="_blank">\
+                <img style="width: 125%;"\
+                    src="https://img.buymeacoffee.com/button-api/?text=Donate&emoji=💰&slug=zhlien1998y&button_colour=ebad81&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=FFDD00" />\
+            </a>\
+            `
         }
 
         const labelDom = document.getElementById("siteLabel");

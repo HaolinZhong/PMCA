@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Courier+Prime&family=JetBrains+Mono:wght@200&family=PT+Mono&family=Press+Start+2P&family=Raleway&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Courier+Prime&family=JetBrains+Mono:wght@200&family=Noto+Sans+SC&family=PT+Mono&family=Press+Start+2P&family=Raleway&display=swap"
         rel="stylesheet">
 </head>
 
@@ -41,9 +41,16 @@
         border-color: chocolate;
         color: chocolate;
     }
+
     .custom-btn:hover {
         border-color: rgba(235, 173, 129, 1);
         background-color: rgba(235, 173, 129, 1);
+    }
+
+    .multifont {
+        font-family: 'Courier Prime', 'Noto Sans SC', sans-serif;
+        /* unicode-range: U+0000-024F, U+1E00-1EFF, U+2C60-2C7F, U+A720-A7FF; */
+        /* Unicode 范围用于拉丁字符 */
     }
 </style>
 
@@ -61,7 +68,6 @@
                             Forgetting Curve!</b></i></small>
             </div>
         </div>
-
 
         <!-- site switcher -->
         <div id="switch-area">
@@ -94,8 +100,7 @@
         </ul>
 
         <!-- tab-content -->
-        <div class="tab-content" id="myTabContent"
-            style="background-color:bisque; font-family: 'Courier Prime', monospace;">
+        <div class="tab-content multifont" id="myTabContent" style="background-color:bisque;">
             <div class="tab-pane fade show active" id="need-review-pane" role="tabpanel"
                 aria-labelledby="need-review-tab" tabindex="0">
                 <table id="need-review-table" class="table table-striped table-hover table-sm">
@@ -113,24 +118,44 @@
 
         <!-- footer -->
         <!-- star & donate -->
-        <div class="text-center mb-3 mt-3" style="display: flex; align-items: center; justify-content: center; text-align: center;  bottom: 0;">
+        <div class="text-center mb-3 mt-3"
+            style="display: flex; align-items: center; justify-content: center; text-align: center;  bottom: 0;">
             <iframe src="https://ghbtns.com/github-btn.html?user=HaolinZhong&repo=PMCA&type=star&count=true&size=large"
                 frameborder="0" scrolling="0" width="200" height="30" title="GitHub" class="col-3 mb-0"></iframe>
-            <a href="https://www.buymeacoffee.com/zhlien1998y" class="col-2 mb-0 ms-4" target="_blank">
-                <img style="width: 125%;"
-                    src="https://img.buymeacoffee.com/button-api/?text=Donate&emoji=💰&slug=zhlien1998y&button_colour=ebad81&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=FFDD00" />
-            </a>
+            <div id="donateButton" class="col-2 mb-0 ms-4">
+                <a href="https://www.buymeacoffee.com/zhlien1998y" target="_blank">
+                    <img style="width: 125%;"
+                        src="https://img.buymeacoffee.com/button-api/?text=Donate&emoji=💰&slug=zhlien1998y&button_colour=ebad81&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=FFDD00" />
+                </a>
+            </div>
             <a class="col-6 mb-0 ms-4" href="https://github.com/HaolinZhong/PMCA/issues/new" target="_blank">
-                <button type="button" class="btn btn-outline-warning custom-btn" style="font-size: smaller; font-family: 'Courier Prime', monospace;">Request new features</button>
+                <button type="button" class="btn btn-outline-warning custom-btn"
+                    style="font-size: smaller; font-family: 'Courier Prime', monospace;">Request new features</button>
             </a>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="tipModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+        style="align-items: center;justify-content: center;">
+        <div class="modal-dialog" style="display: flex; align-items: center;justify-content: center;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">请用微信扫码</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center justify-content-center">
+                    <img src="assets/wechat.png" style="width: 200px;" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+                </div>
+            </div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
         crossorigin="anonymous"></script>
     <script type="text/javascript" src="scripts/popup.js"></script>
 </body>
