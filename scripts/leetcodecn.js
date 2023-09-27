@@ -8,6 +8,8 @@ const WRONG_ANSWER_CLASSNAME = "whitespace-nowrap text-xl font-medium text-red-s
 const COMPILE_ERROR_AND_TLE_CLASSNAME = "mr-1 flex-1 whitespace-nowrap text-xl font-medium text-red-s dark:text-dark-red-s";
 const SUBMIT_BUTTON_CLASSNAME = "py-1.5 font-medium items-center whitespace-nowrap focus:outline-none cursor-not-allowed opacity-50 inline-flex text-label-r bg-green-s dark:bg-dark-green-s hover:bg-green-3 dark:hover:bg-dark-green-3 h-[28px] select-none rounded px-5 text-[13px] leading-[18px]";
 
+// Dynamic Layout
+const SUBMIT_BUTTON_CLASSNAME_DL = "font-medium items-center whitespace-nowrap focus:outline-none cursor-not-allowed opacity-50 inline-flex relative select-none rounded-none px-2.5 py-[7px] bg-transparent dark:bg-transparent text-green-60 dark:text-green-60";
 
 // Problem object
 class Problem {
@@ -266,7 +268,10 @@ document.addEventListener('click', (event) => {
     const element = event.target;
 
     const filterConditions = [
-        element.classList.value === SUBMIT_BUTTON_CLASSNAME
+        element.classList.value === SUBMIT_BUTTON_CLASSNAME,
+        element.classList.value === SUBMIT_BUTTON_CLASSNAME_DL,
+        element.parentElement.classList.value === SUBMIT_BUTTON_CLASSNAME_DL,
+        element.parentElement.parentElement.classList.value === SUBMIT_BUTTON_CLASSNAME_DL
     ]
 
 

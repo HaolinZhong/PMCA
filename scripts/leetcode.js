@@ -285,7 +285,8 @@ document.addEventListener('click', (event) => {
         element.parentElement.classList.contains("submit__2ISl") && element.parentElement.classList.contains("css-ieo3pr"),
         element.classList.value === SUBMIT_BUTTON_CLASSNAME_NEW,
         element.classList.value === SUBMIT_BUTTON_CLASSNAME_DL,
-        element.parentElement.classList.value === SUBMIT_BUTTON_CLASSNAME_DL
+        element.parentElement.classList.value === SUBMIT_BUTTON_CLASSNAME_DL,
+        element.parentElement.parentElement.classList.value === SUBMIT_BUTTON_CLASSNAME_DL
     ]
 
     const isSubmitButton = filterConditions.reduce((prev, curr) => prev || curr);
@@ -295,49 +296,4 @@ document.addEventListener('click', (event) => {
     }
 
 });
-
-/*
-For Ctrl + Enter submission under Dynamic Layout
-*/
-// let detectKeyBoardSubmit = true;
-
-// const handleKeyBoardSubmission = (event) => {
-//     if (!detectKeyBoardSubmit) {
-//         console.log('submission not allowed');
-//         return;
-//     }
-//     const keyCode = event.key;
-//     const isCtrl = event.ctrlKey;
-
-//     if (isCtrl && keyCode === 'Enter') {
-//         // event.preventDefault();
-//         detectKeyBoardSubmit = false;
-//         console.log('keyboard submission detected!');
-//         // allow keyBoard submission detection when we found submit button again
-//         let maxRetry = 10;
-//         const taskId = setInterval(() => {
-//             if (document.getElementsByClassName(SUBMIT_BUTTON_CLASSNAME_DL)[0] === undefined) {
-//                 maxRetry--;
-//                 if (maxRetry === 0) {
-//                     clearInterval(taskId);
-//                     detectKeyBoardSubmit = true;
-//                 }
-//             } else {
-//                 console.log(`found submit button again`);
-//                 console.log(document.getElementsByClassName(SUBMIT_BUTTON_CLASSNAME_DL)[0]);
-//                 detectKeyBoardSubmit = true;
-//                 clearInterval(taskId);
-//             }
-//         }, 500)
-//         monitorSubmissionResult();
-//     } else {
-//         console.log(isCtrl);
-//         console.log(keyCode);
-//     }
-// }
-
-// window.onkeydown = handleKeyBoardSubmission;
-// document.getElementsByClassName('overflow-guard')[0].onkeydown = handleKeyBoardSubmission;
-
-
 
