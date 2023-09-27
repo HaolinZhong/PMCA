@@ -191,7 +191,7 @@ const display_table = () => {
             donateButtonDom.innerHTML = `\
             <button type="button" class="btn btn-outline-warning custom-btn"\ 
                 style="font-size: smaller; font-family: 'Noto Sans SC', sans-serif;"\
-                data-bs-toggle="modal" data-bs-target="#tipModal">打 &nbsp 赏</button>\
+                data-bs-toggle="modal" data-bs-target="#tipModal">🧧 打&nbsp赏</button>\
             `
         } else {
             switchButtonDom.removeAttribute("checked");

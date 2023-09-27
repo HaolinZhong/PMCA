@@ -13,7 +13,10 @@ const SUCCESS_CLASSNAME_NEW = "text-green-s dark:text-dark-green-s flex flex-1 i
 const WRONG_ANSWER_CLASSNAME_NEW = "whitespace-nowrap text-xl font-medium text-red-s dark:text-dark-red-s";
 const COMPILE_ERROR_AND_TLE_CLASSNAME_NEW = "mr-1 flex-1 whitespace-nowrap text-xl font-medium text-red-s dark:text-dark-red-s";
 const SUBMIT_BUTTON_CLASSNAME_NEW = "py-1.5 font-medium items-center whitespace-nowrap focus:outline-none cursor-not-allowed opacity-50 inline-flex text-label-r bg-green-s dark:bg-dark-green-s hover:bg-green-3 dark:hover:bg-dark-green-3 h-[28px] select-none rounded px-5 text-[13px] leading-[18px]";
-                                    
+
+// Dynamic Layout
+const SUBMIT_BUTTON_CLASSNAME_DL = "font-medium items-center whitespace-nowrap focus:outline-none cursor-not-allowed opacity-50 inline-flex relative select-none rounded-none px-2.5 py-[7px] bg-transparent dark:bg-transparent text-green-60 dark:text-green-60";
+
 // Problem object
 class Problem {
     constructor(index, name, level, url, submissionTime, proficiency) {
@@ -180,7 +183,7 @@ const monitorSubmissionResult = () => {
             document.getElementsByClassName(COMPILE_ERROR_AND_TLE_CLASSNAME_NEW)[0];
 
         if (submissionResult === undefined || submissionResult.length === 0) {
-            console.log(`submission Result not found:`);
+            // console.log(`submission Result not found:`);
             console.log(submissionResult);
             maxRetry--;
             return;
@@ -274,23 +277,67 @@ const monitorSubmissionResult = () => {
 */
 
 document.addEventListener('click', (event) => {
-    console.log("clicked");
-    
+
     const element = event.target;
 
     const filterConditions = [
         element.classList.contains("submit__2ISl") && element.classList.contains("css-ieo3pr"),
         element.parentElement.classList.contains("submit__2ISl") && element.parentElement.classList.contains("css-ieo3pr"),
-        element.classList.value === SUBMIT_BUTTON_CLASSNAME_NEW
+        element.classList.value === SUBMIT_BUTTON_CLASSNAME_NEW,
+        element.classList.value === SUBMIT_BUTTON_CLASSNAME_DL,
+        element.parentElement.classList.value === SUBMIT_BUTTON_CLASSNAME_DL
     ]
 
     const isSubmitButton = filterConditions.reduce((prev, curr) => prev || curr);
-
-    console.log(`isSubmit: ${isSubmitButton}`);
-    console.log(element.classList.value);
 
     if (isSubmitButton) {
         monitorSubmissionResult();
     }
 
 });
+
+/*
+For Ctrl + Enter submission under Dynamic Layout
+*/
+// let detectKeyBoardSubmit = true;
+
+// const handleKeyBoardSubmission = (event) => {
+//     if (!detectKeyBoardSubmit) {
+//         console.log('submission not allowed');
+//         return;
+//     }
+//     const keyCode = event.key;
+//     const isCtrl = event.ctrlKey;
+
+//     if (isCtrl && keyCode === 'Enter') {
+//         // event.preventDefault();
+//         detectKeyBoardSubmit = false;
+//         console.log('keyboard submission detected!');
+//         // allow keyBoard submission detection when we found submit button again
+//         let maxRetry = 10;
+//         const taskId = setInterval(() => {
+//             if (document.getElementsByClassName(SUBMIT_BUTTON_CLASSNAME_DL)[0] === undefined) {
+//                 maxRetry--;
+//                 if (maxRetry === 0) {
+//                     clearInterval(taskId);
+//                     detectKeyBoardSubmit = true;
+//                 }
+//             } else {
+//                 console.log(`found submit button again`);
+//                 console.log(document.getElementsByClassName(SUBMIT_BUTTON_CLASSNAME_DL)[0]);
+//                 detectKeyBoardSubmit = true;
+//                 clearInterval(taskId);
+//             }
+//         }, 500)
+//         monitorSubmissionResult();
+//     } else {
+//         console.log(isCtrl);
+//         console.log(keyCode);
+//     }
+// }
+
+// window.onkeydown = handleKeyBoardSubmission;
+// document.getElementsByClassName('overflow-guard')[0].onkeydown = handleKeyBoardSubmission;
+
+
+
