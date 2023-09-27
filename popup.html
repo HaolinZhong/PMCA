@@ -31,6 +31,20 @@
         background-color: chocolate;
         box-shadow: 0 0 5px 2px bisque;
     }
+
+    iframe {
+        overflow: hidden;
+        border: 0;
+    }
+
+    .custom-btn {
+        border-color: chocolate;
+        color: chocolate;
+    }
+    .custom-btn:hover {
+        border-color: rgba(235, 173, 129, 1);
+        background-color: rgba(235, 173, 129, 1);
+    }
 </style>
 
 <body style="width: 500px; background-color:bisque;">
@@ -48,9 +62,11 @@
             </div>
         </div>
 
+
+        <!-- site switcher -->
         <div id="switch-area">
             <div class="form-check form-switch text-center justify-content-center my-1"
-            style="font-family: 'Press Start 2P', cursive; text-align: center; display: flex;">
+                style="font-family: 'Press Start 2P', cursive; text-align: center; display: flex;">
                 <input class="form-check-input custom-switch" type="checkbox" role="switch" id="switchButton">
                 &nbsp;
                 <label class="form-check-label" for="flexSwitchCheckDefault" id="siteLabel"></label>
@@ -96,6 +112,18 @@
         </div>
 
         <!-- footer -->
+        <!-- star & donate -->
+        <div class="text-center mb-3 mt-3" style="display: flex; align-items: center; justify-content: center; text-align: center;  bottom: 0;">
+            <iframe src="https://ghbtns.com/github-btn.html?user=HaolinZhong&repo=PMCA&type=star&count=true&size=large"
+                frameborder="0" scrolling="0" width="200" height="30" title="GitHub" class="col-3 mb-0"></iframe>
+            <a href="https://www.buymeacoffee.com/zhlien1998y" class="col-2 mb-0 ms-4">
+                <img style="width: 125%;"
+                    src="https://img.buymeacoffee.com/button-api/?text=Donate&emoji=💰&slug=zhlien1998y&button_colour=ebad81&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=FFDD00" />
+            </a>
+            <a class="col-6 mb-0 ms-4" href="https://github.com/HaolinZhong/PMCA/issues/new" target="_blank">
+                <button type="button" class="btn btn-outline-warning custom-btn" style="font-size: smaller; font-family: 'Courier Prime', monospace;">Request new features</button>
+            </a>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
