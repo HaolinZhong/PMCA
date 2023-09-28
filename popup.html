@@ -47,12 +47,21 @@
         background-color: rgba(235, 173, 129, 1);
     }
 
+    .custom-btn:disabled {
+        border-color: rgba(70, 70, 70, 0.5);
+        color: rgb(70, 70, 70, 0.5);
+    }
+
     .multifont {
         font-family: 'Courier Prime', 'Noto Sans SC', sans-serif;
     }
+
+    a {
+        color: chocolate;
+    }
 </style>
 
-<body style="width: 500px; background-color:bisque;">
+<body style="width: 500px; height: 570px; background-color:bisque;">
     <div class="container-sm m-0">
 
         <!-- header -->
@@ -69,7 +78,7 @@
 
         <!-- site switcher -->
         <div id="switch-area">
-            <div class="form-check form-switch text-center justify-content-center my-1"
+            <div class="form-check form-switch text-center justify-content-center my-3"
                 style="font-family: 'Press Start 2P', cursive; text-align: center; display: flex;">
                 <input class="form-check-input custom-switch" type="checkbox" role="switch" id="switchButton">
                 &nbsp;
@@ -103,21 +112,53 @@
                 aria-labelledby="need-review-tab" tabindex="0">
                 <table id="need-review-table" class="table table-striped table-hover table-sm">
                 </table>
+                <!-- pagination -->
+                <nav aria-label="Page navigation example row"
+                    style="font-size: smaller; display: flex; text-align: center; justify-content: center; font-family: 'Courier Prime', monospace;">
+                    <button type="button" class="btn btn-outline-warning custom-btn" id="prevButton0">&lt;</button>
+                    <input type="text" class="form-control-sm input ms-2" id="pageInput0" style="width: 7.5%;"
+                        placeholder="1" />
+                    <label for="pageInput0" class="form-label mt-2 me-2" id="pageInputLabel0">/1</label>
+                    <button type="button" class="btn btn-outline-warning custom-btn" id="nextButton0">&gt;</button>
+                </nav>
             </div>
             <div class="tab-pane fade" id="no-review-pane" role="tabpanel" aria-labelledby="no-review-tab" tabindex="0">
                 <table id="no-review-table" class="table table-striped table-hover table-sm">
                 </table>
+                <!-- pagination -->
+                <nav aria-label="Page navigation example row"
+                    style="font-size: smaller; display: flex; text-align: center; justify-content: center; font-family: 'Courier Prime', monospace;">
+                    <button type="button" class="btn btn-outline-warning custom-btn" id="prevButton1">&lt;</button>
+                    <input type="text" class="form-control-sm input ms-2" id="pageInput1" style="width: 7.5%;"
+                        placeholder="1" />
+                    <label for="pageInput1" class="form-label mt-2 me-2" id="pageInputLabel1">/1</label>
+                    <button type="button" class="btn btn-outline-warning custom-btn" id="nextButton1">&gt;</button>
+                </nav>
             </div>
             <div class="tab-pane fade" id="completed-pane" role="tabpanel" aria-labelledby="completed-tab" tabindex="0">
                 <table id="completed-table" class="table table-striped table-hover table-sm">
                 </table>
+                <!-- pagination -->
+                <nav aria-label="Page navigation example row"
+                    style="font-size: smaller; display: flex; text-align: center; justify-content: center; font-family: 'Courier Prime', monospace;">
+                    <button type="button" class="btn btn-outline-warning custom-btn" id="prevButton2">&lt;</button>
+                    <input type="text" class="form-control-sm input ms-2" id="pageInput2" style="width: 7.5%;"
+                        placeholder="1" />
+                    <label for="pageInput2" class="form-label mt-2 me-2" id="pageInputLabel2">/1</label>
+                    <button type="button" class="btn btn-outline-warning custom-btn" id="nextButton2">&gt;</button>
+                </nav>
             </div>
         </div>
+
+
+
+
+
 
         <!-- footer -->
         <!-- star & donate -->
         <div class="text-center mb-3 mt-3"
-            style="display: flex; align-items: center; justify-content: center; text-align: center;  bottom: 0;">
+            style="display: flex; align-items: center; justify-content: center; text-align: center; position: fixed; bottom: 0;">
             <iframe src="https://ghbtns.com/github-btn.html?user=HaolinZhong&repo=PMCA&type=star&count=true&size=large"
                 frameborder="0" scrolling="0" width="200" height="30" title="GitHub" class="col-3 mb-0"></iframe>
             <div id="donateButton" class="col-2 mb-0 ms-4">

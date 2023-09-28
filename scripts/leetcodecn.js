@@ -262,9 +262,9 @@ const monitorSubmissionResult = () => {
 */
 
 document.addEventListener('click', (event) => {
-    
+
     console.log("clicked");
-    
+
     const element = event.target;
 
     const filterConditions = [
