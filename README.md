@@ -29,7 +29,7 @@
 3. Open PMCA to view problems that need to be reviewed now, problems scheduled for future review and mastered problems. You can use the switch in the popup page to switched between the LeetCode global site and the LeetCode CN site.
 4. Enjoy coding!
 
-
+_Currently PMCA __does not__ support tracking problem submission by `ctrl` + `Enter` Please refrain from using it now, thanks! (I will try to fix it soon (or not 🤡_. 
 
 # 用法
 1. 安装PMCA插件
@@ -37,8 +37,7 @@
 3. 打开PMCA查看当前待复习的题, 未来待复习的题以及已经掌握的题. 在弹出页面中可以通过滑块来在LeetCode国际版以及力扣中国版的刷题数据之间切换.
 4. 刷题快乐!
 
-
-
+_目前PMCA __暂不__ 支持记录通过 `ctrl` + `Enter`键提交的问题. 请暂时避免这种提交方式, 谢谢理解! (我最近会尝试支持下这个功能(也可能不会🤡_
 
 # Next Steps
 - ✅ ~~support paging~~
