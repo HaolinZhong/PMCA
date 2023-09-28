@@ -1,5 +1,5 @@
 {
-    "manifest_version": 2,
+    "manifest_version": 3,
     "name": "PMCA",
     "version": "0.9.0",
     "author": "Haolin Zhong",
@@ -10,7 +10,7 @@
         "48": "assets/logo2.png",
         "16": "assets/logo2.png"
     },
-    "browser_action": {
+    "action": {
         "default_icon": "assets/logo2.png",
         "default_popup": "popup.html"
     },
@@ -41,6 +41,5 @@
             ],
             "run_at": "document_idle"
         }
-    ],
-    "content_security_policy": "script-src 'self' https://cdn.jsdelivr.net; object-src 'self';"
+    ]
 }
