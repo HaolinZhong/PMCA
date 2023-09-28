@@ -48,7 +48,6 @@ const needReview = (problem) => {
 
     const currentTime = Date.now();
     const timeDiffInMinute = (currentTime - problem.submissionTime) / (1000 * 60);
-    console.log(`timeDiffInMinute: ${timeDiffInMinute}`);
     return timeDiffInMinute >= forggetingCurve[problem.proficiency];
 };
 
@@ -142,12 +141,8 @@ const extractProblemInfo = async () => {
 
 
     const problemSlug = problemUrl.split("/").splice(-2)[0];
-    console.log(problemSlug);
-    console.log(problemUrl.split("/"));
 
     const question = await queryProblemInfo(problemSlug);
-
-    console.log(question);
 
     return {
         problemIndex: question.questionId,
@@ -166,7 +161,6 @@ const monitorSubmissionResult = () => {
     let submissionResult;
     let maxRetry = 10;
     const retryInterval = 1000;
-    console.log(`monitor started!`);
 
     const functionId = setInterval(async () => {
 
@@ -183,14 +177,9 @@ const monitorSubmissionResult = () => {
             document.getElementsByClassName(COMPILE_ERROR_AND_TLE_CLASSNAME_NEW)[0];
 
         if (submissionResult === undefined || submissionResult.length === 0) {
-            // console.log(`submission Result not found:`);
-            console.log(submissionResult);
             maxRetry--;
             return;
         }
-
-        console.log(`Found Submission Result:`);
-        console.log(submissionResult.className);
 
         clearInterval(functionId);
         let isSuccess = submissionResult.className.includes(SUCCESS_CLASSNAME) ||
@@ -203,7 +192,6 @@ const monitorSubmissionResult = () => {
 
         const promise = new Promise((resolve, reject) => {
             chrome.storage.local.get("records", (result) => {
-                console.log(result);
                 const problems = result.records;
                 if (problems === undefined || problems[problemIndex] === undefined) {
                     reject(problems);
@@ -216,7 +204,6 @@ const monitorSubmissionResult = () => {
         promise.then(
             // problem submitted before
             problems => {
-                console.log(`problem submitted before`)
                 const problem = problems[problemIndex];
                 const reviewNeeded = needReview(problem);
                 if (reviewNeeded && isSuccess) {
@@ -240,19 +227,13 @@ const monitorSubmissionResult = () => {
 
                     problems[problemIndex] = problem;
                     chrome.storage.local.set({ "records": problems });
-                    chrome.storage.local.get("records", (result) => console.log(result.records));
-                } else {
-                    console.log("review not needed");
-                    console.log(problems);
                 }
             },
             // first time submission
             problems => {
-                console.log(`first time submission`);
                 if (isSuccess) {
                     if (problems === undefined) {
                         problems = {};
-                        console.log(`reset problems`);
                     }
 
                     const problem = new Problem(problemIndex, problemName, problemLevel, problemUrl, submissionTime, steps[0]);
@@ -260,9 +241,6 @@ const monitorSubmissionResult = () => {
                     problems[problemIndex] = problem;
 
                     chrome.storage.local.set({ "records": problems });
-                    chrome.storage.local.get("records", (result) => console.log(result.records));
-                } else {
-                    console.log(`isSuccess: ${isSuccess}`);
                 }
             }
         )

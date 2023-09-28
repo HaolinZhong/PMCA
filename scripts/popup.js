@@ -44,7 +44,6 @@ const needReview = (problem) => {
 
     const currentTime = Date.now();
     const timeDiffInMinute = (currentTime - problem.submissionTime) / (1000 * 60);
-    console.log(`timeDiffInMinute: ${timeDiffInMinute}`);
     return timeDiffInMinute >= forggetingCurve[problem.proficiency];
 };
 
@@ -166,9 +165,6 @@ const update_review_table_content = (problems, page) => {
 }
 
 const update_schedule_table_content = (problems, page) => {
-
-    console.log(page);
-
     /* validation */
     if (page > scheduledMaxPage || page < 1) {
         input1DOM.classList.add("is-invalid");
@@ -248,8 +244,6 @@ const update_completed_table_content = (problems, page) => {
 
     problems = problems.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
-    console.log(problems);
-
     let keys = Object.keys(problems);
     for (const i of keys) {
         content_html += create_completed_problem_record(problems[i]) + '\n';
@@ -269,8 +263,6 @@ const display_table = () => {
         } else {
             cnMode = result.cn_mode;
         }
-
-        console.log(`current in cn_mode: ${cnMode}`);
 
 
         const switchButtonDom = document.getElementById("switchButton");
@@ -340,7 +332,6 @@ document.getElementById("switchButton").addEventListener('click', (event) => {
         }
 
         chrome.storage.local.set({ 'cn_mode': !cnMode });
-        console.log(`changed cn_mode to ${!cnMode}`);
         display_table();
     });
 });
@@ -368,14 +359,12 @@ const jumpToReviewPage = (event) => {
 }
 
 const jumpToSchedulePage = (event) => {
-    console.log(`jumped by ${event.target.value}`);
     if (event.keyCode !== 13) return;
     let page = parseInt(event.target.value);
     if (isNaN(page) || !Number.isInteger(page)) {
         input1DOM.classList.add("is-invalid");
         return;
     }
-    console.log(`jump to ${page}`);
     input1DOM.classList.remove("is-invalid");
     if (page === scheduledPage) return;
     update_schedule_table_content(reviewScheduledProblems, page);
