@@ -41,8 +41,8 @@
 
 
 # Next Steps
-- ✅~~support paging~~
-- ✅~~support new UI version of leetcode~~
-- 🔲support customized configuration of review intervals
-- 🔲support features like `mark as mastered`, `reset progress` 
-- 🔲support tracking submission by `ctrl` + `Enter` in the "Dynamic Layout"
+- ✅ ~~support paging~~
+- ✅ ~~support new UI version of leetcode~~
+- 🔲 support customized configuration of review intervals
+- 🔲 support features like `mark as mastered`, `reset progress` 
+- 🔲 support tracking submission by `ctrl` + `Enter` in the "Dynamic Layout"
