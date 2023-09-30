@@ -176,7 +176,6 @@ const monitorSubmissionResult = () => {
         const promise = new Promise((resolve, reject) => {
             chrome.storage.local.get("cn_records", (result) => {
                 const problems = result.cn_records;
-                delete problems.undefined;
                 if (problems === undefined || problems[problemIndex] === undefined) {
                     reject(problems);
                 } else {
