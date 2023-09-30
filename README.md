@@ -8,15 +8,22 @@
     <B>P</B>ractice <B>M</B>akes <B>C</B>ode <B>A</B>ccepted
   <br>
 </h1>
+
+
 <h2 align="center">
      Review LeetCode / 力扣 problems based on Ebbinghaus's Forgetting Curve
 </h2>
-![image](https://github.com/HaolinZhong/PMCA/assets/90407167/89482e5f-d9f4-4d30-8bd5-bbe291670dd1)
-<p align="center">🔗<a href="https://chrome.google.com/webstore/detail/pmca/nojegmfgpgdicmogicikihalccihhkid">Get PMCA from Chrome Web Store
 
-</a></p>
+<div align="center">
+  <a href="https://chrome.google.com/webstore/detail/pmca/nojegmfgpgdicmogicikihalccihhkid">
+    <img align="center" src="https://github.com/HaolinZhong/PMCA/assets/90407167/89482e5f-d9f4-4d30-8bd5-bbe291670dd1" />
+  </a>
+</div>
+<div align="center">
+🔗<a href="https://chrome.google.com/webstore/detail/pmca/nojegmfgpgdicmogicikihalccihhkid">Get PMCA from Chrome Web Store</a>
+</div>
 
-
+<br>
 
 <div align="center">
 
@@ -24,6 +31,8 @@
   ![Stars](https://img.shields.io/github/stars/HaolinZhong/PMCA)
 
 </div>
+
+
 
 # Get Started
 
