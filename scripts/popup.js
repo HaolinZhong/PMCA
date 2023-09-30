@@ -76,7 +76,7 @@ const create_review_problem_record = (problem) => {
             </div>\
         </td>\
         <td><small>${decorateProblemLevel(problem.level)}</small></td>\
-        <td><small>${Math.round((Date.now() - nextReviewDate) / (60 * 1000))} hours</small></td>\
+        <td><small>${Math.round((Date.now() - nextReviewDate) / (60 * 60 * 1000))} hours</small></td>\
     </tr>\
     `;
     return htmlTag;

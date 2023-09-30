@@ -84,7 +84,7 @@ const params = {
     variables: { titleSlug: "" },
     query: `query getQuestionDetail($titleSlug: String!) {
       question(titleSlug: $titleSlug) {
-        questionId
+        questionFrontendId
         translatedTitle
         difficulty
       }
@@ -111,7 +111,6 @@ const queryProblemInfo = async (slug) => {
 
     const response = await fetch(url, requestOptions);
     const content = await response.json();
-
     return content.data.question;
 }
 
@@ -133,8 +132,8 @@ const extractProblemInfo = async () => {
     const question = await queryProblemInfo(problemSlug);
 
     return {
-        problemIndex: question.questionId,
-        problemName: `${question.questionId}. ${question.translatedTitle}`,
+        problemIndex: question.questionFrontendId,
+        problemName: `${question.questionFrontendId}. ${question.translatedTitle}`,
         problemLevel: question.difficulty,
         problemUrl
     };
@@ -177,6 +176,7 @@ const monitorSubmissionResult = () => {
         const promise = new Promise((resolve, reject) => {
             chrome.storage.local.get("cn_records", (result) => {
                 const problems = result.cn_records;
+                delete problems.undefined;
                 if (problems === undefined || problems[problemIndex] === undefined) {
                     reject(problems);
                 } else {
@@ -212,6 +212,7 @@ const monitorSubmissionResult = () => {
                     problems[problemIndex] = problem;
                     chrome.storage.local.set({ "cn_records": problems });
                 }
+                chrome.storage.local.set({ "cn_records": problems });
             },
             // first time submission
             problems => {

@@ -92,7 +92,7 @@ const params = {
     variables: { titleSlug: "" },
     query: `query questionTitle($titleSlug: String!) {
       question(titleSlug: $titleSlug) {
-        questionId
+        questionFrontendId
         title
         difficulty
       }
@@ -145,8 +145,8 @@ const extractProblemInfo = async () => {
     const question = await queryProblemInfo(problemSlug);
 
     return {
-        problemIndex: question.questionId,
-        problemName: `${question.questionId}. ${question.title}`,
+        problemIndex: question.questionFrontendId,
+        problemName: `${question.questionFrontendId}. ${question.title}`,
         problemLevel: question.difficulty,
         problemUrl
     };
