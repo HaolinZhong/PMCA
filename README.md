@@ -37,8 +37,8 @@
 # Get Started
 
 1. Install the PMCA extension in your web browser.
-2. Solve and submit LeetCode problems. Upon a success submission, PMCA sets the next review time for the problem based on the Ebbinghaus forgetting curve.
-3. Open PMCA to view problems that need to be reviewed now, problems scheduled for future review and mastered problems. You can use the switch in the popup page to switched between the LeetCode global site and the LeetCode CN site.
+2. Solve and submit LeetCode problems. Upon successful submission, PMCA sets the next review time for the problem based on the Ebbinghaus forgetting curve.
+3. Open PMCA to view problems that need to be reviewed now, problems scheduled for future review and mastered problems. You can use the switch in the popup page to switch between the LeetCode global site and the LeetCode CN site.
 4. Enjoy coding!
 
 _Currently PMCA __does not__ support tracking problem submission by `ctrl` + `Enter` Please refrain from using it now, thanks! (I will try to fix it soon (or not 🤡_. 
@@ -57,3 +57,4 @@ _目前PMCA __暂不__ 支持记录通过 `ctrl` + `Enter`键提交的问题. �
 - 🔲 support customized configuration of review intervals
 - 🔲 support features like `mark as mastered`, `reset progress` 
 - 🔲 support tracking submission by `ctrl` + `Enter` in the "Dynamic Layout"
+- 🔲 support importing previous submission records
