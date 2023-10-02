@@ -29,7 +29,7 @@
 
   [<img src="https://img.shields.io/badge/license-MIT-green.svg" alt="license"/>](https://github.com/HaolinZhong/PMCA/blob/main/LICENSE)
   ![Stars](https://img.shields.io/github/stars/HaolinZhong/PMCA)
-
+  <img src="https://img.shields.io/chrome-web-store/d/nojegmfgpgdicmogicikihalccihhkid.svg" alt="users">
 </div>
 
 
