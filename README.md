@@ -54,6 +54,7 @@ _目前PMCA __暂不__ 支持记录通过 `ctrl` + `Enter`键提交的问题. �
 # Next Steps
 - ✅ ~~support paging~~
 - ✅ ~~support new UI version of leetcode~~
+- 🔲 inject a button in the LeetCode nav bar
 - 🔲 support customized configuration of review intervals
 - 🔲 support features like `mark as mastered`, `reset progress` 
 - 🔲 support tracking submission by `ctrl` + `Enter` in the "Dynamic Layout"
