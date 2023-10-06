@@ -18,19 +18,17 @@ async function eventHandler(details, inServiceWorker) {
     });
 
     let data = await fetchResponse.json();
-    // ... existing code
+
     if (data.state === "SUCCESS") {
         console.log("Submission was successful.");
         chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
             chrome.tabs.sendMessage(tabs[0].id, { type: "success" });
         });
     }
-    // ... existing code
 
 }
 
 async function messageHandler(message, sender, sendResponse) {
-    // Define response based on your logic; this is a placeholder
     let response = "Handled: " + JSON.stringify(message);
 
     console.log("MSG HANDLER" + message);
