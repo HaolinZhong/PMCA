@@ -28,15 +28,6 @@ async function eventHandler(details, inServiceWorker) {
 
 }
 
-async function messageHandler(message, sender, sendResponse) {
-    let response = "Handled: " + JSON.stringify(message);
-
-    console.log("MSG HANDLER" + message);
-
-    sendResponse && sendResponse(response);
-    return response;
-}
-
 chrome.webRequest.onCompleted.addListener(
     function (details) {
         eventHandler(details, true);
