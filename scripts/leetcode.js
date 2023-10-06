@@ -1,6 +1,30 @@
 
 console.log(`Hello PMCA!`);
 
+chrome.runtime.onMessage.addListener(
+    async function(request, sender, sendResponse) {
+      if (request.type === "success") {
+        let response = await messageHandler(request, sender, sendResponse);
+      }
+    }
+);
+
+async function messageHandler(message, sender, sendResponse) {
+    // Handle your message and produce a response
+    // ...
+    console.info('MONITOR SUBMISSION RESULT')
+    monitorSubmissionResult();
+    let response = "Handled: " + JSON.stringify(message);
+    sendResponse && sendResponse(response);
+    return response;
+}
+
+document.querySelector('head').appendChild(
+    Object.assign(document.createElement('script'), {
+      type: 'module',
+      src: chrome.runtime.getURL('./scripts/leetcode.js'),
+    }),
+  );
 // webpage classnames
 // old UI
 const SUCCESS_CLASSNAME = "success__3Ai7";
@@ -249,6 +273,8 @@ const monitorSubmissionResult = () => {
     }, retryInterval)
 };
 
+
+  
 
 /*
     Invoke monitorSubmissionResult upon clicking the submit button.
