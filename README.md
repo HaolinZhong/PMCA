@@ -61,3 +61,4 @@ _目前PMCA __暂不__ 支持记录通过 `ctrl` + `Enter`键提交的问题. �
 - 🔲 support tracking submission by `ctrl` + `Enter` in the "Dynamic Layout"
 - 🔲 support importing previous submission records
 - 🔲 support auto sync 力扣 submission to github
+- 🔲 refractor with webpack for scalability
