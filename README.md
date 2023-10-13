@@ -3,7 +3,7 @@
 
 
 <h1 align="center">
-  <img src="assets/logo2.png" style="zoom: 10%;" />
+  <img src="assets/logo2.png" style="width: 10%;" />
   <br>
     <B>P</B>ractice <B>M</B>akes <B>C</B>ode <B>A</B>ccepted
   <br>
