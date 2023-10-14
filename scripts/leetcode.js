@@ -209,8 +209,8 @@ const monitorSubmissionResult = () => {
                 if (reviewNeeded && isSuccess) {
                     let nextProficiencyIndex;
                     for (const i of steps) {
-                        if (steps[i] > problem.proficiency) {
-                            nextProficiencyIndex = steps[i];
+                        if (i > problem.proficiency) {
+                            nextProficiencyIndex = i;
                             break;
                         }
                     }

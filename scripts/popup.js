@@ -35,7 +35,6 @@ const inputLabel2DOM = document.getElementById("pageInputLabel2");
 const prevButton2DOM = document.getElementById("prevButton2");
 const nextButton2DOM = document.getElementById("nextButton2");
 
-const placeHolder = {}
 
 const needReview = (problem) => {
     if (problem.proficiency >= forggetingCurve.length) {
@@ -57,26 +56,57 @@ const decorateProblemLevel = (level) => {
     } else {
         color = "rgb(233, 30, 99)";
     }
-    return `<p style="color: ${color}">${level}</p>`
+    return `<small style="color: ${color}; vertical-align: middle">${level}</small>`
 }
 
 const getNextReviewTime = (problem) => {
     return new Date(problem.submissionTime + forggetingCurve[problem.proficiency] * 60 * 1000);
 }
 
+
+/*
+    Tag for problem records
+*/
+const getProblemUrlCell = (problem) => `<td style="width: 30%;"><a target="_blank" href=${problem.url}><small>${problem.name}</small><a/></td>`;
+const getProblemProgressBarCell = (problem) => {
+    return `\
+    <td style="width: 10%;">\
+        <div class="progress" role="progressbar" aria-label="Success example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">\
+            <div class="progress-bar progress-bar-striped bg-success" style="width: ${Math.max(problem.proficiency, 0) / 5 * 100}%; font-size: smaller; color: black"><small><small><small>${problem.proficiency / 5 * 100}%</small></small></small></div>\
+        </div>\
+    </td>\
+    `
+}
+const getProblemLevelCell = (problem) => `<td style="width: 12%;"><small>${decorateProblemLevel(problem.level)}</small></td>`;
+
+const getCheckButtonTag = (problem) => `<small class="fa-regular fa-square-check fa-2xs mt-2 mb-0 check-btn-mark"\ 
+                                            data-bs-toggle="tooltip" data-bs-title="Mark as mastered" data-bs-placement="left"\
+                                            style="color: #d2691e;" data-id=${problem.index}> </small>`;
+
+const getDeleteButtonTag = (problem) => `<small class="fa-regular fa-square-minus fa-2xs mt-2 mb-0 delete-btn-mark"\ 
+                                            data-bs-toggle="tooltip" data-bs-title="Delete this record" data-bs-placement="left"\
+                                            style="color: #d2691e;" data-id=${problem.index}> </small>`;
+
+const getResetButtonTag = (problem) => `<small class="fa-solid fa-arrows-rotate fa-2xs mt-2 mb-0 reset-btn-mark" \
+                                            data-bs-toggle="tooltip" data-bs-title="Reset progress" data-bs-placement="left"\
+                                            style="color: #d2691e;" data-id=${problem.index}> </small>`;
+
+
+
 const create_review_problem_record = (problem) => {
     const nextReviewDate = getNextReviewTime(problem);
     const htmlTag =
         `\
     <tr>\
-        <td style="width: 40%;"><a target="_blank" href=${problem.url}><small>${problem.name}</small><a/></td>\
-        <td>\
-            <div class="progress" role="progressbar" aria-label="Success example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">\
-                <div class="progress-bar progress-bar-striped bg-success" style="width: ${problem.proficiency / 5 * 100}%; font-size: smaller; color: black"><small><small><small>${problem.proficiency / 5 * 100}%</small></small></small></div>\
-            </div>\
+        ${getProblemUrlCell(problem)}\
+        ${getProblemProgressBarCell(problem)}\
+        ${getProblemLevelCell(problem)}\
+        <td><small>${Math.round((Date.now() - nextReviewDate) / (60 * 60 * 1000))} hour(s)</small></td>\
+        <td style="text-align: center; vertical-align:middle">\
+            ${getCheckButtonTag(problem)}\
+            ${getResetButtonTag(problem)}\
+            ${getDeleteButtonTag(problem)}\
         </td>\
-        <td><small>${decorateProblemLevel(problem.level)}</small></td>\
-        <td><small>${Math.round((Date.now() - nextReviewDate) / (60 * 60 * 1000))} hours</small></td>\
     </tr>\
     `;
     return htmlTag;
@@ -87,15 +117,16 @@ const create_schedule_problem_record = (problem) => {
     const nextReviewDate = getNextReviewTime(problem);
     const htmlTag =
         `\
-    <tr>\
-        <td style="width: 40%;"><a target="_blank" href=${problem.url}><small>${problem.name}</small><a/></td>\
-        <td>\
-            <div class="progress" role="progressbar" aria-label="Success example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">\
-                <div class="progress-bar progress-bar-striped bg-success" style="width: ${problem.proficiency / 5 * 100}%; font-size: smaller; color: black"><small><small><small>${problem.proficiency / 5 * 100}%</small></small></small></div>\
-            </div>\
+    <tr style="vertical-align:middle">\
+        ${getProblemUrlCell(problem)}\
+        ${getProblemProgressBarCell(problem)}\
+        ${getProblemLevelCell(problem)}\
+        <td><small>${months[nextReviewDate.getMonth()]} ${nextReviewDate.getDate()} ${nextReviewDate.getHours()}:${nextReviewDate.getMinutes() < 10 ? `0${nextReviewDate.getMinutes()}` : nextReviewDate.getMinutes()}</small></td>\
+        <td style="text-align: center; vertical-align:middle">\
+            ${getCheckButtonTag(problem)}\
+            ${getResetButtonTag(problem)}\
+            ${getDeleteButtonTag(problem)}\
         </td>\
-        <td><small>${decorateProblemLevel(problem.level)}</small></td>\
-        <td><small>${months[nextReviewDate.getMonth()]} ${nextReviewDate.getDate()} ${nextReviewDate.getHours()}:${nextReviewDate.getMinutes()}</small></td>\
     </tr>\
     `;
     return htmlTag;
@@ -106,13 +137,14 @@ const create_completed_problem_record = (problem) => {
     const htmlTag =
         `\
     <tr>\
-        <td style="width: 40%;"><a target="_blank" href=${problem.url}><small>${problem.name}</small><a/></td>\
-        <td>\
-            <div class="progress" role="progressbar" aria-label="Success example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">\
-                <div class="progress-bar progress-bar-striped bg-success" style="width: ${problem.proficiency / 5 * 100}%; font-size: smaller; color: black"><small><small><small>${problem.proficiency / 5 * 100}%</small></small></small></div>\
-            </div>\
+        ${getProblemUrlCell(problem)}\
+        ${getProblemProgressBarCell(problem)}\
+        ${getProblemLevelCell(problem)}\
+        <td style="text-align: center; vertical-align:middle">\
+            ${getCheckButtonTag(problem)}\
+            ${getResetButtonTag(problem)}\
+            ${getDeleteButtonTag(problem)}\
         </td>\
-        <td><small>${decorateProblemLevel(problem.level)}</small></td>\
     </tr>\
     `;
     return htmlTag;
@@ -148,6 +180,7 @@ const update_review_table_content = (problems, page) => {
             <th>Progress</th>\
             <th>Level</th>\
             <th>Delay</th>\
+            <th>Operation</th>\
         </tr>\
     </thead>\
     <tbody>\
@@ -192,6 +225,7 @@ const update_schedule_table_content = (problems, page) => {
             <th>Progress</th>\
             <th>Level</th>\
             <th>Review Time</th>\
+            <th>Operation</th>\
         </tr>\
     </thead>\
     <tbody>\
@@ -237,6 +271,7 @@ const update_completed_table_content = (problems, page) => {
             <th>Problem</th>\
             <th>Progress</th>\
             <th>Level</th>\
+            <th>Operation</th>\
         </tr>\
     </thead>\
     <tbody>\
@@ -253,6 +288,119 @@ const update_completed_table_content = (problems, page) => {
     document.getElementById("completed-table").innerHTML = content_html;
 }
 
+const getLocalStorageData = (key) => {
+    return new Promise((resolve, reject) => {
+        chrome.storage.local.get(key, (result) => {
+            if (result === undefined || result[key] === undefined) {
+                reject();
+            } else {
+                resolve(result[key]);
+            }
+        })
+    })
+}
+
+
+const mark_problem_as_mastered = async (event) => {
+    const tooltipElement = event.target.nextElementSibling;
+
+    if (tooltipElement) {
+        tooltipElement.style.display = 'none';
+    }
+
+    const problemId = event.target.dataset.id;
+
+    let cnMode;
+    try {
+        cnMode = await getLocalStorageData('cn_mode');
+    } catch {
+        cnMode = false;
+    }
+
+    const queryKey = cnMode ? 'cn_records' : 'records';
+
+    let problems = await getLocalStorageData(queryKey);
+
+    let problem = problems[problemId];
+    problem.proficiency = forggetingCurve.length;
+    problems[problemId] = problem;
+    chrome.storage.local.set({ [queryKey]: problems });
+    display_table();
+};
+
+const delete_problem = async (event) => {
+    const tooltipElement = event.target.previousElementSibling;
+
+    if (tooltipElement) {
+        console.log(tooltipElement);
+        tooltipElement.style.display = 'none';
+    }
+
+    const problemId = event.target.dataset.id;
+
+    let cnMode;
+    try {
+        cnMode = await getLocalStorageData('cn_mode');
+    } catch {
+        cnMode = false;
+    }
+
+    const queryKey = cnMode ? 'cn_records' : 'records';
+
+    let problems = await getLocalStorageData(queryKey);
+    delete problems[problemId];
+    chrome.storage.local.set({ [queryKey]: problems });
+    display_table();
+};
+
+const reset_problem = async (event) => {
+    const tooltipElement = event.target.nextElementSibling;
+
+    if (tooltipElement) {
+        console.log(tooltipElement);
+        tooltipElement.style.display = 'none';
+    }
+
+    const problemId = event.target.dataset.id;
+
+    let cnMode;
+    try {
+        cnMode = await getLocalStorageData('cn_mode');
+    } catch {
+        cnMode = false;
+    }
+
+    const queryKey = cnMode ? 'cn_records' : 'records';
+
+    let problems = await getLocalStorageData(queryKey);
+    let problem = problems[problemId];
+    problem.proficiency = 0;
+    problem.submissionTime = Date.now() - 24 * 60 * 60 * 1000;
+    problems[problemId] = problem;
+    chrome.storage.local.set({ [queryKey]: problems });
+    console.log(await getLocalStorageData(queryKey));
+    display_table();
+};
+
+const update_record_operation_event_listener = () => {
+    const checkButtons = document.getElementsByClassName("check-btn-mark");
+    const deleteButtons = document.getElementsByClassName("delete-btn-mark");
+    const resetButtons = document.getElementsByClassName("reset-btn-mark");
+
+    if (checkButtons !== undefined) {
+        Array.prototype.forEach.call(checkButtons, (btn) => btn.onclick = mark_problem_as_mastered);
+    }
+
+    if (deleteButtons !== undefined) {
+        Array.prototype.forEach.call(deleteButtons, (btn) => btn.onclick = delete_problem);
+    }
+
+    if (resetButtons !== undefined) {
+        Array.prototype.forEach.call(resetButtons, (btn) => btn.onclick = reset_problem);
+    }
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+}
 
 const display_table = () => {
 
@@ -318,6 +466,7 @@ const display_table = () => {
             update_review_table_content(needReviewProblems, 1);
             update_schedule_table_content(reviewScheduledProblems, 1);
             update_completed_table_content(completedProblems, 1);
+            update_record_operation_event_listener();
         })
     })
 }
@@ -338,13 +487,33 @@ document.getElementById("switchButton").addEventListener('click', (event) => {
 
 display_table();
 
+const goToPrevReviewPage = () => {
+    update_review_table_content(needReviewProblems, toReviewPage - 1);
+    update_record_operation_event_listener();
+}
+const goToNextReviewPage = () => {
+    update_review_table_content(needReviewProblems, toReviewPage + 1);
+    update_record_operation_event_listener();
+}
+const goToPrevSchedulePage = () => {
+    update_schedule_table_content(reviewScheduledProblems, scheduledPage - 1);
+    update_record_operation_event_listener();
+}
 
-const goToPrevReviewPage = () => update_review_table_content(needReviewProblems, toReviewPage - 1);
-const goToNextReviewPage = () => update_review_table_content(needReviewProblems, toReviewPage + 1);
-const goToPrevSchedulePage = () => update_schedule_table_content(reviewScheduledProblems, scheduledPage - 1);
-const goToNextSchedulePage = () => update_schedule_table_content(reviewScheduledProblems, scheduledPage + 1);
-const goToPrevCompletedPage = () => update_completed_table_content(completedProblems, completedPage - 1);
-const goToNextCompletedPage = () => update_completed_table_content(completedProblems, completedPage + 1);
+const goToNextSchedulePage = () => {
+    update_schedule_table_content(reviewScheduledProblems, scheduledPage + 1);
+    update_record_operation_event_listener();
+}
+
+const goToPrevCompletedPage = () => {
+    update_completed_table_content(completedProblems, completedPage - 1);
+    update_record_operation_event_listener();
+}
+
+const goToNextCompletedPage = () => {
+    update_completed_table_content(completedProblems, completedPage + 1);
+    update_record_operation_event_listener();
+}
 
 const jumpToReviewPage = (event) => {
     if (event.keyCode !== 13) return;
@@ -356,6 +525,7 @@ const jumpToReviewPage = (event) => {
     input0DOM.classList.remove("is-invalid");
     if (page === toReviewPage) return;
     update_review_table_content(needReviewProblems, page);
+    update_record_operation_event_listener();
 }
 
 const jumpToSchedulePage = (event) => {
@@ -368,6 +538,7 @@ const jumpToSchedulePage = (event) => {
     input1DOM.classList.remove("is-invalid");
     if (page === scheduledPage) return;
     update_schedule_table_content(reviewScheduledProblems, page);
+    update_record_operation_event_listener();
 }
 
 const jumpToCompletedPage = (event) => {
@@ -380,6 +551,7 @@ const jumpToCompletedPage = (event) => {
     input2DOM.classList.remove("is-invalid");
     if (page === completedPage) return;
     update_completed_table_content(needReviewProblems, page);
+    update_record_operation_event_listener();
 }
 
 prevButton0DOM.onclick = goToPrevReviewPage;
