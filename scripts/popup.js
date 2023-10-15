@@ -67,28 +67,28 @@ const getNextReviewTime = (problem) => {
 /*
     Tag for problem records
 */
-const getProblemUrlCell = (problem) => `<td style="width: 30%;"><a target="_blank" href=${problem.url}><small>${problem.name}</small><a/></td>`;
-const getProblemProgressBarCell = (problem) => {
+const getProblemUrlCell = (problem, width) => `<td style="width: ${width | 30}%;"><a target="_blank" href=${problem.url}><small>${problem.name}</small><a/></td>`;
+const getProblemProgressBarCell = (problem, width) => {
     return `\
-    <td style="width: 10%;">\
+    <td style="width: ${width | 10};">\
         <div class="progress" role="progressbar" aria-label="Success example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">\
             <div class="progress-bar progress-bar-striped bg-success" style="width: ${Math.max(problem.proficiency, 0) / 5 * 100}%; font-size: smaller; color: black"><small><small><small>${problem.proficiency / 5 * 100}%</small></small></small></div>\
         </div>\
     </td>\
     `
 }
-const getProblemLevelCell = (problem) => `<td style="width: 12%;"><small>${decorateProblemLevel(problem.level)}</small></td>`;
+const getProblemLevelCell = (problem, width) => `<td style="width: ${width | 12}%;"><small>${decorateProblemLevel(problem.level)}</small></td>`;
 
 const getCheckButtonTag = (problem) => `<small class="fa-regular fa-square-check fa-2xs mt-2 mb-0 check-btn-mark"\ 
-                                            data-bs-toggle="tooltip" data-bs-title="Mark as mastered" data-bs-placement="left"\
+                                            data-bs-toggle="tooltip" data-bs-title="✅ Mark as mastered" data-bs-placement="left"\
                                             style="color: #d2691e;" data-id=${problem.index}> </small>`;
 
 const getDeleteButtonTag = (problem) => `<small class="fa-regular fa-square-minus fa-2xs mt-2 mb-0 delete-btn-mark"\ 
-                                            data-bs-toggle="tooltip" data-bs-title="Delete this record" data-bs-placement="left"\
-                                            style="color: #d2691e;" data-id=${problem.index}> </small>`;
+                                            data-bs-toggle="tooltip" data-bs-title="⛔ Delete this record (NO RECOVERY!!!)" data-bs-placement="left"\
+                                            style="color: red;" data-id=${problem.index}> </small>`;
 
 const getResetButtonTag = (problem) => `<small class="fa-solid fa-arrows-rotate fa-2xs mt-2 mb-0 reset-btn-mark" \
-                                            data-bs-toggle="tooltip" data-bs-title="Reset progress" data-bs-placement="left"\
+                                            data-bs-toggle="tooltip" data-bs-title="🔄 Reset progress" data-bs-placement="left"\
                                             style="color: #d2691e;" data-id=${problem.index}> </small>`;
 
 
@@ -137,11 +137,10 @@ const create_completed_problem_record = (problem) => {
     const htmlTag =
         `\
     <tr>\
-        ${getProblemUrlCell(problem)}\
-        ${getProblemProgressBarCell(problem)}\
+        ${getProblemUrlCell(problem, 35)}\
+        ${getProblemProgressBarCell(problem, 20)}\
         ${getProblemLevelCell(problem)}\
         <td style="text-align: center; vertical-align:middle">\
-            ${getCheckButtonTag(problem)}\
             ${getResetButtonTag(problem)}\
             ${getDeleteButtonTag(problem)}\
         </td>\
@@ -302,11 +301,8 @@ const getLocalStorageData = (key) => {
 
 
 const mark_problem_as_mastered = async (event) => {
-    const tooltipElement = event.target.nextElementSibling;
 
-    if (tooltipElement) {
-        tooltipElement.style.display = 'none';
-    }
+    hide_all_tooltips();
 
     const problemId = event.target.dataset.id;
 
@@ -329,12 +325,8 @@ const mark_problem_as_mastered = async (event) => {
 };
 
 const delete_problem = async (event) => {
-    const tooltipElement = event.target.previousElementSibling;
 
-    if (tooltipElement) {
-        console.log(tooltipElement);
-        tooltipElement.style.display = 'none';
-    }
+    hide_all_tooltips();
 
     const problemId = event.target.dataset.id;
 
@@ -354,12 +346,8 @@ const delete_problem = async (event) => {
 };
 
 const reset_problem = async (event) => {
-    const tooltipElement = event.target.nextElementSibling;
 
-    if (tooltipElement) {
-        console.log(tooltipElement);
-        tooltipElement.style.display = 'none';
-    }
+    hide_all_tooltips();
 
     const problemId = event.target.dataset.id;
 
@@ -382,6 +370,10 @@ const reset_problem = async (event) => {
     display_table();
 };
 
+
+let tooltipTriggerList;
+let tooltipList;
+
 const update_record_operation_event_listener = () => {
     const checkButtons = document.getElementsByClassName("check-btn-mark");
     const deleteButtons = document.getElementsByClassName("delete-btn-mark");
@@ -398,8 +390,12 @@ const update_record_operation_event_listener = () => {
     if (resetButtons !== undefined) {
         Array.prototype.forEach.call(resetButtons, (btn) => btn.onclick = reset_problem);
     }
-    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+    tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+}
+
+const hide_all_tooltips = () => {
+    tooltipList.forEach(tooltip => tooltip._hideModalHandler());
 }
 
 const display_table = () => {
