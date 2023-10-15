@@ -3,7 +3,7 @@
 
 
 <h1 align="center">
-  <img src="assets/logo2.png" style="zoom: 10%;" />
+  <img src="assets/logo2.png" style="width: 10%;" />
   <br>
     <B>P</B>ractice <B>M</B>akes <B>C</B>ode <B>A</B>ccepted
   <br>
@@ -57,6 +57,8 @@ _目前PMCA __暂不__ 支持记录通过 `ctrl` + `Enter`键提交的问题. �
 - 🔲 inject a button in the LeetCode nav bar
 - 🔲 support customized configuration of review intervals
 - 🔲 support features like `mark as mastered`, `reset progress` 
+- 🔲 support sync data across devices 
 - 🔲 support tracking submission by `ctrl` + `Enter` in the "Dynamic Layout"
 - 🔲 support importing previous submission records
 - 🔲 support auto sync 力扣 submission to github
+- 🔲 refractor with webpack for scalability
