@@ -229,7 +229,7 @@ const monitorSubmissionResult = () => {
 
                     chrome.storage.local.set({ "cn_records": problems });
                 }
-            }
+            }    
         ).finally(() => console.log("Submission successfully tracked!"));
 
 
