@@ -6,7 +6,10 @@ console.log(`Hello PMCA!`);
 const SUCCESS_CLASSNAME = "text-green-s dark:text-dark-green-s flex flex-1 items-center gap-2 text-[16px] font-medium leading-6";
 const WRONG_ANSWER_CLASSNAME = "whitespace-nowrap text-xl font-medium text-red-s dark:text-dark-red-s";
 const COMPILE_ERROR_AND_TLE_CLASSNAME = "mr-1 flex-1 whitespace-nowrap text-xl font-medium text-red-s dark:text-dark-red-s";
+
 const SUBMIT_BUTTON_CLASSNAME = "py-1.5 font-medium items-center whitespace-nowrap focus:outline-none cursor-not-allowed opacity-50 inline-flex text-label-r bg-green-s dark:bg-dark-green-s hover:bg-green-3 dark:hover:bg-dark-green-3 h-[28px] select-none rounded px-5 text-[13px] leading-[18px]";
+const SUBMIT_BUTTON_ATTRIBUTE_NAME = "data-e2e-locator";
+const SUBMIT_BUTTON_ATTRIBUTE_VALUE = "console-submit-button";
 
 // Dynamic Layout
 const SUBMIT_BUTTON_CLASSNAME_DL = "font-medium items-center whitespace-nowrap focus:outline-none cursor-not-allowed opacity-50 inline-flex relative select-none rounded-none px-2.5 py-[7px] bg-transparent dark:bg-transparent text-green-60 dark:text-green-60";
@@ -194,7 +197,6 @@ const monitorSubmissionResult = () => {
                     for (const i of steps) {
                         if (i > problem.proficiency) {
                             nextProficiencyIndex = i;
-                            console.log(nextProficiencyIndex);
                             break;
                         }
                     }
@@ -227,8 +229,8 @@ const monitorSubmissionResult = () => {
 
                     chrome.storage.local.set({ "cn_records": problems });
                 }
-            }
-        )
+            }    
+        ).finally(() => console.log("Submission successfully tracked!"));
 
 
     }, retryInterval)
@@ -239,21 +241,24 @@ const monitorSubmissionResult = () => {
     Invoke monitorSubmissionResult upon clicking the submit button.
 */
 
+const isSubmitButton = (element) => {
+    return element.getAttribute(SUBMIT_BUTTON_ATTRIBUTE_NAME) === SUBMIT_BUTTON_ATTRIBUTE_VALUE;
+}
+
 document.addEventListener('click', (event) => {
 
     const element = event.target;
 
     const filterConditions = [
-        element.classList.value === SUBMIT_BUTTON_CLASSNAME,
-        element.classList.value === SUBMIT_BUTTON_CLASSNAME_DL,
-        element.parentElement.classList.value === SUBMIT_BUTTON_CLASSNAME_DL,
-        element.parentElement.parentElement.classList.value === SUBMIT_BUTTON_CLASSNAME_DL
+        isSubmitButton(element),
+        element.parentElement && isSubmitButton(element.parentElement),
+        element.parentElement && element.parentElement.parentElement && isSubmitButton(element.parentElement.parentElement),
     ]
 
 
-    const isSubmitButton = filterConditions.reduce((prev, curr) => prev || curr);
+    const isSubmission = filterConditions.reduce((prev, curr) => prev || curr);
 
-    if (isSubmitButton) {
+    if (isSubmission) {
         monitorSubmissionResult();
     }
 
