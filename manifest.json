@@ -14,17 +14,22 @@
         "default_icon": "assets/logo.png",
         "default_popup": "popup.html"
     },
-    "background": {},
+    "background": {
+        "service_worker": "scripts/background.js",
+        "type": "module"
+      },
     "permissions": [
-        "https://leetcode.com/*",
-        "https://leetcode.cn/*",
         "unlimitedStorage",
-        "storage"
+        "storage",
+        "webRequest"
+    ],
+    "host_permissions": [
+        "*://*.leetcode.com/*"     
     ],
     "content_scripts": [
         {
             "matches": [
-                "https://leetcode.com/*"
+                "*://*.leetcode.com/*" 
             ],
             "js": [
                 "scripts/leetcode.js"
