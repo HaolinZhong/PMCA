@@ -1,0 +1,51 @@
+table,
+tbody,
+tr,
+th,
+td {
+    background-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+.custom-switch:focus {
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 5px 2px bisque;
+}
+
+.custom-switch:checked {
+    border-color: rgba(255, 255, 255, 0.2);
+    background-color: chocolate;
+    box-shadow: 0 0 5px 2px bisque;
+}
+
+iframe {
+    overflow: hidden;
+    border: 0;
+}
+
+.custom-btn {
+    border-color: chocolate;
+    color: chocolate;
+}
+
+.custom-btn:hover {
+    border-color: rgba(235, 173, 129, 1);
+    background-color: rgba(235, 173, 129, 1);
+}
+
+.custom-btn:disabled {
+    border-color: rgba(70, 70, 70, 0.5);
+    color: rgb(70, 70, 70, 0.5);
+}
+
+.multifont {
+    font-family: 'Courier Prime', 'Noto Sans SC', sans-serif;
+}
+
+a {
+    color: chocolate;
+}
+
+.custom-tooltip {
+    --bs-tooltip-bg: var(--bd-violet-bg);
+    --bs-tooltip-color: var(--bs-white);
+}

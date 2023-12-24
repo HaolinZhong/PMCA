@@ -1,0 +1,32 @@
+{
+  "name": "pmca",
+  "version": "1.0.0",
+  "description": "<h1 align=\"center\">\r   <img src=\"assets/logo2.png\" style=\"width: 10%;\" />\r   <br>\r     <B>P</B>ractice <B>M</B>akes <B>C</B>ode <B>A</B>ccepted\r   <br>\r </h1>",
+  "main": "src/popup.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "release": "npm run build && node zip.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HaolinZhong/PMCA.git"
+  },
+  "keywords": [],
+  "author": "Haolin Zhong",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HaolinZhong/PMCA/issues"
+  },
+  "homepage": "https://github.com/HaolinZhong/PMCA#readme",
+  "dependencies": {
+    "archiver": "^6.0.1",
+    "css-loader": "^6.8.1",
+    "style-loader": "^3.3.3",
+    "webpack": "^5.89.0",
+    "webpack-cli": "^5.1.4"
+  }
+}

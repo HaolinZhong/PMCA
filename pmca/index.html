@@ -1,0 +1,148 @@
+<html>
+
+<head>
+    <title>PMCA</title>
+    <meta charset="utf-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Courier+Prime&family=JetBrains+Mono:wght@200&family=Noto+Sans+SC&family=PT+Mono&family=Press+Start+2P&family=Raleway&display=swap"
+        rel="stylesheet">
+</head>
+
+<body style="width: 500px; height: 900px; background-color:bisque;">
+    <div class="container-sm m-0">
+
+        <!-- header -->
+        <div style="display: flex;">
+            <div class="my-3 mx-0 px-0 text-center" style="flex: 1;">
+                <img src="assets/logo2.png" style="width: 100px;" />
+            </div>
+            <div class="mt-3 py-1" style="flex: 2;">
+                <h5 id="message" style="font-family: 'Press Start 2P', cursive;">Practice Makes Code Accepted</h5>
+                <small style="font-family: 'Raleway', sans-serif;"><i>Review LeetCode problems based on <b>Ebbinghaus's
+                            Forgetting Curve!</b></i></small>
+            </div>
+        </div>
+
+        <!-- doc -->
+        <div class="multifont my-0 py-0 by-0" style="text-align: center;">
+            <small>🔗 <a target="_blank" href="https://github.com/HaolinZhong/PMCA#get-started">Get Started</a> / <a
+                    target="_blank" href="https://github.com/HaolinZhong/PMCA#%E7%94%A8%E6%B3%95">用法</a></small>
+        </div>
+
+        <!-- site switcher -->
+        <div id="switch-area">
+            <div class="form-check form-switch text-center justify-content-center my-3"
+                style="font-family: 'Press Start 2P', cursive; text-align: center; display: flex;">
+                <input class="form-check-input custom-switch" type="checkbox" role="switch" id="switchButton">
+                &nbsp;
+                <label class="form-check-label" for="flexSwitchCheckDefault" id="siteLabel"></label>
+            </div>
+        </div>
+
+        <!-- navbar -->
+        <ul class="nav nav-tabs text-center justify-content-center" id="myTab" role="tablist"
+            style="font-size: smaller; font-family: 'PT Mono', monospace;">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="need-review-tab" data-bs-toggle="tab"
+                    data-bs-target="#need-review-pane" type="button" role="tab" aria-controls="need-review-pane"
+                    aria-selected="true" style="color: black;">Review Due</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="no-review-tab" data-bs-toggle="tab" data-bs-target="#no-review-pane"
+                    type="button" role="tab" aria-controls="no-review-pane" aria-selected="false"
+                    style="color: black;">Review Scheduled</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="completed-tab" data-bs-toggle="tab" data-bs-target="#completed-pane"
+                    type="button" role="tab" aria-controls="completed-pane" aria-selected="false"
+                    style="color: black;">Mastered</button>
+            </li>
+        </ul>
+
+        <!-- tab-content -->
+        <div class="tab-content multifont" id="myTabContent" style="background-color:bisque;">
+            <div class="tab-pane fade show active" id="need-review-pane" role="tabpanel"
+                aria-labelledby="need-review-tab" tabindex="0">
+                <table id="need-review-table" class="table table-striped table-hover table-sm">
+                </table>
+                <!-- pagination -->
+                <nav aria-label="Page navigation example row"
+                    style="font-size: smaller; display: flex; text-align: center; justify-content: center; font-family: 'Courier Prime', monospace;">
+                    <button type="button" class="btn btn-outline-warning custom-btn" id="prevButton0">&lt;</button>
+                    <input type="text" class="form-control-sm input ms-2" id="pageInput0" style="width: 7.5%;"
+                        placeholder="1" />
+                    <label for="pageInput0" class="form-label mt-2 me-2" id="pageInputLabel0">/1</label>
+                    <button type="button" class="btn btn-outline-warning custom-btn" id="nextButton0">&gt;</button>
+                </nav>
+            </div>
+            <div class="tab-pane fade" id="no-review-pane" role="tabpanel" aria-labelledby="no-review-tab" tabindex="0">
+                <table id="no-review-table" class="table table-striped table-hover table-sm">
+                </table>
+                <!-- pagination -->
+                <nav aria-label="Page navigation example row"
+                    style="font-size: smaller; display: flex; text-align: center; justify-content: center; font-family: 'Courier Prime', monospace;">
+                    <button type="button" class="btn btn-outline-warning custom-btn" id="prevButton1">&lt;</button>
+                    <input type="text" class="form-control-sm input ms-2" id="pageInput1" style="width: 7.5%;"
+                        placeholder="1" />
+                    <label for="pageInput1" class="form-label mt-2 me-2" id="pageInputLabel1">/1</label>
+                    <button type="button" class="btn btn-outline-warning custom-btn" id="nextButton1">&gt;</button>
+                </nav>
+            </div>
+            <div class="tab-pane fade" id="completed-pane" role="tabpanel" aria-labelledby="completed-tab" tabindex="0">
+                <table id="completed-table" class="table table-striped table-hover table-sm">
+                </table>
+                <!-- pagination -->
+                <nav aria-label="Page navigation example row"
+                    style="font-size: smaller; display: flex; text-align: center; justify-content: center; font-family: 'Courier Prime', monospace;">
+                    <button type="button" class="btn btn-outline-warning custom-btn" id="prevButton2">&lt;</button>
+                    <input type="text" class="form-control-sm input ms-2" id="pageInput2" style="width: 7.5%;"
+                        placeholder="1" />
+                    <label for="pageInput2" class="form-label mt-2 me-2" id="pageInputLabel2">/1</label>
+                    <button type="button" class="btn btn-outline-warning custom-btn" id="nextButton2">&gt;</button>
+                </nav>
+            </div>
+        </div>
+
+        <!-- footer -->
+        <!-- star & donate -->
+        <div class="text-center mb-3 mt-3"
+            style="display: flex; align-items: center; justify-content: center; text-align: center; position:fixed; bottom: 0;">
+            <iframe src="https://ghbtns.com/github-btn.html?user=HaolinZhong&repo=PMCA&type=star&count=true&size=large"
+                frameborder="0" scrolling="0" width="200" height="30" title="GitHub" class="col-3 mb-0"></iframe>
+            <a class="col-6 mb-0 ms-0" href="https://github.com/HaolinZhong/PMCA/issues/new" target="_blank">
+                <button type="button" class="btn btn-outline-warning custom-btn"
+                    style="font-size: smaller; font-family: 'Courier Prime', monospace;">Request new features</button>
+            </a>
+            <div id="donateButton" class="col-2 mb-0 ms-0">
+                <a href="https://www.buymeacoffee.com/zhlien1998y" target="_blank">
+                    <img style="width: 125%;"
+                        src="https://img.buymeacoffee.com/button-api/?text=Donate&emoji=💰&slug=zhlien1998y&button_colour=ebad81&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=FFDD00" />
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="tipModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+        style="align-items: center;justify-content: center;">
+        <div class="modal-dialog" style="display: flex; align-items: center;justify-content: center;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">请用微信扫码</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center justify-content-center">
+                    <img src="assets/wechat.png" style="width: 200px;" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="dist/popup_bundle.js"></script>
+</body>
+
+</html>

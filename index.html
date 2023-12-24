@@ -3,67 +3,12 @@
 <head>
     <title>PMCA</title>
     <meta charset="utf-8">
-    <link href="lib/bootstrap.min.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Courier+Prime&family=JetBrains+Mono:wght@200&family=Noto+Sans+SC&family=PT+Mono&family=Press+Start+2P&family=Raleway&display=swap"
         rel="stylesheet">
 </head>
-
-<style type="text/css">
-    table,
-    tbody,
-    tr,
-    th,
-    td {
-        background-color: rgba(255, 255, 255, 0.2) !important;
-    }
-
-    .custom-switch:focus {
-        border-color: rgba(255, 255, 255, 0.2);
-        box-shadow: 0 0 5px 2px bisque;
-    }
-
-    .custom-switch:checked {
-        border-color: rgba(255, 255, 255, 0.2);
-        background-color: chocolate;
-        box-shadow: 0 0 5px 2px bisque;
-    }
-
-    iframe {
-        overflow: hidden;
-        border: 0;
-    }
-
-    .custom-btn {
-        border-color: chocolate;
-        color: chocolate;
-    }
-
-    .custom-btn:hover {
-        border-color: rgba(235, 173, 129, 1);
-        background-color: rgba(235, 173, 129, 1);
-    }
-
-    .custom-btn:disabled {
-        border-color: rgba(70, 70, 70, 0.5);
-        color: rgb(70, 70, 70, 0.5);
-    }
-
-    .multifont {
-        font-family: 'Courier Prime', 'Noto Sans SC', sans-serif;
-    }
-
-    a {
-        color: chocolate;
-    }
-
-    .custom-tooltip {
-        --bs-tooltip-bg: var(--bd-violet-bg);
-        --bs-tooltip-color: var(--bs-white);
-    }
-</style>
 
 <body style="width: 500px; height: 900px; background-color:bisque;">
     <div class="container-sm m-0">
@@ -160,7 +105,6 @@
             </div>
         </div>
 
-
         <!-- footer -->
         <!-- star & donate -->
         <div class="text-center mb-3 mt-3"
@@ -180,9 +124,6 @@
         </div>
     </div>
 
-
-
-
     <!-- Modal -->
     <div class="modal fade" id="tipModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
         style="align-items: center;justify-content: center;">
@@ -201,10 +142,7 @@
             </div>
         </div>
     </div>
-
-    <script type="text/javascript" src="lib/bootstrap.bundle.min.js"></script>
-    <script type="text/javascript" src="lib/fontawesome.js"></script>
-    <script type="text/javascript" src="scripts/popup.js"></script>
+    <script src="dist/popup_bundle.js"></script>
 </body>
 
 </html>
