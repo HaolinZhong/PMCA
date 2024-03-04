@@ -1,4 +1,4 @@
-import { completedMaxPage, completedPage, completedProblems, needReviewProblems, reviewScheduledProblems, scheduledMaxPage, scheduledPage, toReviewMaxPage, toReviewPage } from "../handler/globalVars";
+import { store } from "../handler/globalVars";
 import { isInCnMode } from "../service/modeService";
 import { getAllProblems } from "../service/problemService";
 import { CN_LABLE, GL_LABLE, PAGE_SIZE, months } from "../util/constants";
@@ -93,22 +93,23 @@ const createCompletedProblemRecord = (problem) => {
 
 export const renderReviewTableContent = (problems, page) => {
     /* validation */
-    if (page > toReviewMaxPage || page < 1) {
+    console.log(store.toReviewMaxPage);
+    if (page > store.toReviewMaxPage || page < 1) {
         input0DOM.classList.add("is-invalid");
         return;
     }
     input0DOM.classList.remove("is-invalid");
 
-    toReviewPage = page;
+    store.toReviewPage = page;
 
     /* update pagination elements */
     input0DOM.value = page;
-    inputLabel0DOM.innerText = `/${toReviewMaxPage}`;
+    inputLabel0DOM.innerText = `/${store.toReviewMaxPage}`;
 
     if (page === 1) prevButton0DOM.setAttribute("disabled", "disabled");
     if (page !== 1) prevButton0DOM.removeAttribute("disabled");
-    if (page === toReviewMaxPage) nextButton0DOM.setAttribute("disabled", "disabled");
-    if (page !== toReviewMaxPage) nextButton0DOM.removeAttribute("disabled");
+    if (page === store.toReviewMaxPage) nextButton0DOM.setAttribute("disabled", "disabled");
+    if (page !== store.toReviewMaxPage) nextButton0DOM.removeAttribute("disabled");
 
     let content_html =
         '\
@@ -137,22 +138,22 @@ export const renderReviewTableContent = (problems, page) => {
 
 export const renderScheduledTableContent = (problems, page) => {
     /* validation */
-    if (page > scheduledMaxPage || page < 1) {
+    if (page > store.scheduledMaxPage || page < 1) {
         input1DOM.classList.add("is-invalid");
         return;
     }
     input1DOM.classList.remove("is-invalid");
 
-    scheduledPage = page;
+    store.scheduledPage = page;
 
     /* update pagination elements */
     input1DOM.value = page;
-    inputLabel1DOM.innerText = `/${scheduledMaxPage}`;
+    inputLabel1DOM.innerText = `/${store.scheduledMaxPage}`;
 
     if (page === 1) prevButton1DOM.setAttribute("disabled", "disabled");
     if (page !== 1) prevButton1DOM.removeAttribute("disabled");
-    if (page === scheduledMaxPage) nextButton1DOM.setAttribute("disabled", "disabled");
-    if (page !== scheduledMaxPage) nextButton1DOM.removeAttribute("disabled");
+    if (page === store.scheduledMaxPage) nextButton1DOM.setAttribute("disabled", "disabled");
+    if (page !== store.scheduledMaxPage) nextButton1DOM.removeAttribute("disabled");
 
 
     let content_html =
@@ -185,22 +186,22 @@ export const renderScheduledTableContent = (problems, page) => {
 export const renderCompletedTableContent = (problems, page) => {
 
     /* validation */
-    if (page > completedMaxPage || page < 1) {
+    if (page > store.completedMaxPage || page < 1) {
         input2DOM.classList.add("is-invalid");
         return;
     }
     input2DOM.classList.remove("is-invalid");
 
-    completedPage = page;
+    store.completedPage = page;
 
     /* update pagination elements */
     input2DOM.value = page;
-    inputLabel2DOM.innerText = `/${completedMaxPage}`;
+    inputLabel2DOM.innerText = `/${store.completedMaxPage}`;
 
     if (page === 1) prevButton2DOM.setAttribute("disabled", "disabled");
     if (page !== 1) prevButton2DOM.removeAttribute("disabled");
-    if (page === completedMaxPage) nextButton2DOM.setAttribute("disabled", "disabled");
-    if (page !== completedMaxPage) nextButton2DOM.removeAttribute("disabled");
+    if (page === store.completedMaxPage) nextButton2DOM.setAttribute("disabled", "disabled");
+    if (page !== store.completedMaxPage) nextButton2DOM.removeAttribute("disabled");
 
     let content_html =
         '\
@@ -228,7 +229,6 @@ export const renderCompletedTableContent = (problems, page) => {
 
 export const renderSiteMode = async () => {
     let cnMode = await isInCnMode();
-    console.log(cnMode);
     if (cnMode) {
         switchButtonDOM.setAttribute("checked", "checked");
         siteLabelDOM.innerHTML = CN_LABLE;
@@ -242,22 +242,27 @@ export const renderAll = async () => {
     console.log("start rendering");
     renderSiteMode();
 
+    console.log("mode rendered");
+
     const problems = Object.values(await getAllProblems());
-    needReviewProblems = problems.filter(needReview);
-    reviewScheduledProblems = problems.filter(scheduledReview);
-    completedProblems = problems.filter(isCompleted);
+    store.needReviewProblems = problems.filter(needReview);
+    store.reviewScheduledProblems = problems.filter(scheduledReview);
+    store.completedProblems = problems.filter(isCompleted);
 
-    toReviewMaxPage = calculatePageNum(needReviewProblems);
-    scheduledMaxPage = calculatePageNum(reviewScheduledProblems);
-    completedMaxPage = calculatePageNum(completedProblems);
+    store.toReviewMaxPage = calculatePageNum(store.needReviewProblems);
+    store.scheduledMaxPage = calculatePageNum(store.reviewScheduledProblems);
+    store.completedMaxPage = calculatePageNum(store.completedProblems);
 
-    needReviewProblems.sort(problemReviewTimeComparator);
-    reviewScheduledProblems.sort(problemReviewTimeComparator)
-    completedProblems.sort(problemReviewTimeComparator)
+    store.needReviewProblems.sort(problemReviewTimeComparator);
+    store.reviewScheduledProblems.sort(problemReviewTimeComparator)
+    store.completedProblems.sort(problemReviewTimeComparator)
 
-    renderReviewTableContent(needReviewProblems, 1);
-    renderScheduledTableContent(reviewScheduledProblems, 1);
-    renderCompletedTableContent(completedProblems, 1);
+    renderReviewTableContent(store.needReviewProblems, 1);
+    console.log("review table rendered");
+    renderScheduledTableContent(store.reviewScheduledProblems, 1);
+    console.log("scheduled table rendered");
+    renderCompletedTableContent(store.completedProblems, 1);
+    console.log("completed table rendered");
 
     console.log("Element rendered.");
 }

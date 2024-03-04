@@ -4,8 +4,10 @@ import { isInCnMode } from "./modeService";
 
 export const getAllProblems = async () => {
     let cnMode = await isInCnMode();
+    console.log("got cnMode");
     const queryKey = cnMode ? 'cn_records' : 'records';
     let problems = await getLocalStorageData(queryKey);
+    console.log("got problems");
     if (problems === undefined) problems = [];
     return problems;
 }

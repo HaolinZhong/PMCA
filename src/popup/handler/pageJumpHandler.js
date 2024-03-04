@@ -1,33 +1,33 @@
 import { input0DOM, input1DOM, input2DOM, nextButton0DOM, nextButton1DOM, nextButton2DOM, prevButton0DOM, prevButton1DOM, prevButton2DOM } from "../util/doms";
 import { renderCompletedTableContent, renderReviewTableContent, renderScheduledTableContent } from "../view/view";
-import { completedProblems, needReviewProblems, reviewScheduledProblems } from "./globalVars";
+import { store } from "./globalVars";
 import { setRecordOperationHandlers } from "./recordOperationHandler";
 
 const goToPrevReviewPage = () => {
-    renderReviewTableContent(needReviewProblems, toReviewPage - 1);
+    renderReviewTableContent(store.needReviewProblems, store.toReviewPage - 1);
     setRecordOperationHandlers();
 }
 const goToNextReviewPage = () => {
-    renderReviewTableContent(needReviewProblems, toReviewPage + 1);
+    renderReviewTableContent(store.needReviewProblems, store.toReviewPage + 1);
     setRecordOperationHandlers();
 }
 const goToPrevSchedulePage = () => {
-    renderScheduledTableContent(reviewScheduledProblems, scheduledPage - 1);
+    renderScheduledTableContent(store.reviewScheduledProblems, store.scheduledPage - 1);
     setRecordOperationHandlers();
 }
 
 const goToNextSchedulePage = () => {
-    renderScheduledTableContent(reviewScheduledProblems, scheduledPage + 1);
+    renderScheduledTableContent(store.reviewScheduledProblems, store.scheduledPage + 1);
     setRecordOperationHandlers();
 }
 
 const goToPrevCompletedPage = () => {
-    renderCompletedTableContent(completedProblems, completedPage - 1);
+    renderCompletedTableContent(store.completedProblems, store.completedPage - 1);
     setRecordOperationHandlers();
 }
 
 const goToNextCompletedPage = () => {
-    renderCompletedTableContent(completedProblems, completedPage + 1);
+    renderCompletedTableContent(store.completedProblems, store.completedPage + 1);
     setRecordOperationHandlers();
 }
 
@@ -39,8 +39,8 @@ const jumpToReviewPage = (event) => {
         return;
     }
     input0DOM.classList.remove("is-invalid");
-    if (page === toReviewPage) return;
-    renderReviewTableContent(needReviewProblems, page);
+    if (page === store.toReviewPage) return;
+    renderReviewTableContent(store.needReviewProblems, page);
     setRecordOperationHandlers();
 }
 
@@ -52,8 +52,8 @@ const jumpToSchedulePage = (event) => {
         return;
     }
     input1DOM.classList.remove("is-invalid");
-    if (page === scheduledPage) return;
-    update_schedule_table_content(reviewScheduledProblems, page);
+    if (page === store.scheduledPage) return;
+    update_schedule_table_content(store.reviewScheduledProblems, page);
     setRecordOperationHandlers();
 }
 
@@ -65,8 +65,8 @@ const jumpToCompletedPage = (event) => {
         return;
     }
     input2DOM.classList.remove("is-invalid");
-    if (page === completedPage) return;
-    renderCompletedTableContent(needReviewProblems, page);
+    if (page === store.completedPage) return;
+    renderCompletedTableContent(store.needReviewProblems, page);
     setRecordOperationHandlers();
 }
 

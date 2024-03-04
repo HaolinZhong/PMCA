@@ -1,17 +1,17 @@
 import { getLocalStorageData, setLocalStorageData } from "../delegate/localStorageDelegate"
-import { cnMode } from "../handler/globalVars";
+import { store } from "../handler/globalVars";
 import { CN_MODE } from "../util/constants"
 
 export const isInCnMode = async () => {
-    cnMode = await getLocalStorageData(CN_MODE);
-    if (cnMode === undefined) {
+    store.cnMode = await getLocalStorageData(CN_MODE);
+    if (store.cnMode === undefined) {
         await setLocalStorageData(CN_MODE, false);
-        cnMode = false;
+        store.cnMode = false;
     }
-    return cnMode;
+    return store.cnMode;
 }
 
 export const toggleMode = async () => {
-    cnMode = await isInCnMode();
-    await setLocalStorageData(CN_MODE, !cnMode);
+    store.cnMode = await isInCnMode();
+    await setLocalStorageData(CN_MODE, !store.cnMode);
 }

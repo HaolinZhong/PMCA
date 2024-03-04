@@ -1,16 +1,14 @@
-export let needReviewProblems;
-export let reviewScheduledProblems;
-export let completedProblems;
-
-export let toReviewPage = 1;
-export let scheduledPage = 1;
-export let completedPage = 1;
-
-export let toReviewMaxPage;
-export let scheduledMaxPage;
-export let completedMaxPage;
-
-export let tooltipTriggerList;
-export let tooltipList;
-
-export let cnMode;
+export const store = {
+    needReviewProblems: null,
+    reviewScheduledProblems: null,
+    completedProblems: null,
+    toReviewPage: 1,
+    scheduledPage: 1,
+    completedPage: 1,
+    toReviewMaxPage: null,
+    scheduledMaxPage: null,
+    completedMaxPage: null,
+    tooltipTriggerList: null,
+    tooltipList: null,
+    cnMode: null
+}

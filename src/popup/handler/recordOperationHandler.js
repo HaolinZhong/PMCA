@@ -1,13 +1,13 @@
 import { checkButtonDOMs, deleteButtonDOMs, resetButtonDOMs } from "../util/doms";
-import { tooltipList, tooltipTriggerList } from "./globalVars";
+import { store } from "./globalVars";
 
 const initTooltips = () => {
-    tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-    tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+    store.tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    store.tooltipList = [...store.tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
 }
 
 const hide_all_tooltips = () => {
-    tooltipList.forEach(tooltip => tooltip._hideModalHandler());
+    store.tooltipList.forEach(tooltip => tooltip._hideModalHandler());
 }
 
 export const setRecordOperationHandlers = () => {
