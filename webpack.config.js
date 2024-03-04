@@ -1,8 +1,8 @@
 module.exports = {
     entry: {
         popup: './src/popup/popup.js',
-        leetcode: './src/script/leetcode.js',
-        leetcodecn: './src/script/leetcodecn.js'
+        leetcode: './src/popup/script/leetcode.js',
+        leetcodecn: './src/popup/script/leetcodecn.js'
     },
     output: {
         filename: '[name].js'

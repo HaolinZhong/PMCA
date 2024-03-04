@@ -9,7 +9,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
-    "release": "npm run build && node zip.js"
+    "release": "npm run build && node ./deploy/zip.js",
+    "clear": "node ./deploy/clear.js",
+    "local-deploy": "npm run clear && npm run build && npm run release && node ./deploy/unzip.js"
   },
   "repository": {
     "type": "git",
@@ -25,6 +27,7 @@
   "dependencies": {
     "archiver": "^6.0.1",
     "css-loader": "^6.8.1",
+    "jszip": "^3.10.1",
     "style-loader": "^3.3.3",
     "webpack": "^5.89.0",
     "webpack-cli": "^5.1.4"

@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "PMCA",
-    "version": "0.9.4",
+    "version": "0.9.5",
     "author": "Haolin Zhong",
     "description": "PMCA tracks your LeetCode progress and prompt you to review based on Ebbinghaus's Forgetting Curve",
     "homepage_url": "https://github.com/HaolinZhong/PMCA",

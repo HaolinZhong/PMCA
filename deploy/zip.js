@@ -48,9 +48,9 @@ function zipFoldersAndFiles(folders, files, targetZip) {
   archive.finalize();
 }
 
-const foldersToZip = ['dist', 'assets'];
+const foldersToZip = ['dist', 'assets', 'lib'];
 const filesToZip = [
-    'index.html',
+    'popup.html',
     'LICENSE',
     'manifest.json',
     'PRIVACY POLICY.md',
