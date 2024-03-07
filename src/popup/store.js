@@ -10,5 +10,7 @@ export const store = {
     completedMaxPage: null,
     tooltipTriggerList: null,
     tooltipList: null,
-    cnMode: null
+    easyIntv: [1, 3],
+    mediumIntv: [1, 3, 4],
+    hardIntv: [0, 1, 2, 3, 4]
 }

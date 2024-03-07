@@ -1,17 +1,19 @@
 import { getLocalStorageData, setLocalStorageData } from "../delegate/localStorageDelegate"
-import { store } from "../handler/globalVars";
-import { CN_MODE } from "../util/constants"
+import { CN_MODE } from "../util/keys"
 
 export const isInCnMode = async () => {
-    store.cnMode = await getLocalStorageData(CN_MODE);
-    if (store.cnMode === undefined) {
+    const cnMode = await getLocalStorageData(CN_MODE);
+    console.log(`current cnMode is ${cnMode}`);
+    if (cnMode === undefined) {
         await setLocalStorageData(CN_MODE, false);
-        store.cnMode = false;
+        cnMode = false;
     }
-    return store.cnMode;
+    return cnMode;
 }
 
 export const toggleMode = async () => {
-    store.cnMode = await isInCnMode();
-    await setLocalStorageData(CN_MODE, !store.cnMode);
+    const cnMode = await isInCnMode();
+    console.log(`got current cnMode before toggle}`);
+    await setLocalStorageData(CN_MODE, !cnMode);
+    console.log("cnMode toggled");
 }

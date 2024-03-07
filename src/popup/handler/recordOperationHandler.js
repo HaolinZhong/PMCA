@@ -1,5 +1,7 @@
 import { checkButtonDOMs, deleteButtonDOMs, resetButtonDOMs } from "../util/doms";
-import { store } from "./globalVars";
+import { store } from "../store";
+import { deleteProblem, markProblemAsMastered, resetProblem } from "../service/problemService";
+import { renderAll } from "../view/view";
 
 const initTooltips = () => {
     store.tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
@@ -15,23 +17,26 @@ export const setRecordOperationHandlers = () => {
     initTooltips();
 
     if (checkButtonDOMs !== undefined) {
-        Array.prototype.forEach.call(checkButtonDOMs, (btn) => btn.onclick = async () => {
+        Array.prototype.forEach.call(checkButtonDOMs, (btn) => btn.onclick = async (event) => {
             hide_all_tooltips();
-            await mark_problem_as_mastered();
+            await markProblemAsMastered(event.target.dataset.id);
+            await renderAll();
         });
     }
 
     if (deleteButtonDOMs !== undefined) {
-        Array.prototype.forEach.call(deleteButtonDOMs, (btn) => btn.onclick = async () => {
+        Array.prototype.forEach.call(deleteButtonDOMs, (btn) => btn.onclick = async (event) => {
             hide_all_tooltips();
-            await delete_problem();
+            await deleteProblem(event.target.dataset.id);
+            await renderAll();
         });
     }
 
     if (resetButtonDOMs !== undefined) {
-        Array.prototype.forEach.call(resetButtonDOMs, (btn) => btn.onclick = async () => {
+        Array.prototype.forEach.call(resetButtonDOMs, (btn) => btn.onclick = async (event) => {
             hide_all_tooltips();
-            await reset_problem();
+            await resetProblem(event.target.dataset.id);
+            await renderAll();
         });
     }
 }

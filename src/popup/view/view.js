@@ -1,9 +1,10 @@
-import { store } from "../handler/globalVars";
+import { store } from "../store";
 import { isInCnMode } from "../service/modeService";
 import { getAllProblems } from "../service/problemService";
 import { CN_LABLE, GL_LABLE, PAGE_SIZE, months } from "../util/constants";
 import { completedTableDOM, input0DOM, input1DOM, input2DOM, inputLabel0DOM, inputLabel1DOM, inputLabel2DOM, needReviewTableDOM, nextButton0DOM, nextButton1DOM, nextButton2DOM, noReviewTableDOM, prevButton0DOM, prevButton1DOM, prevButton2DOM, siteLabelDOM, switchButtonDOM } from "../util/doms";
 import { calculatePageNum, decorateProblemLevel, getNextReviewTime, isCompleted, needReview, problemReviewTimeComparator, scheduledReview } from "../util/utils";
+import { registerAllHandlers } from "../handler/handlerRegister";
 
 /*
     Tag for problem records
@@ -229,6 +230,7 @@ export const renderCompletedTableContent = (problems, page) => {
 
 export const renderSiteMode = async () => {
     let cnMode = await isInCnMode();
+    console.log(cnMode);
     if (cnMode) {
         switchButtonDOM.setAttribute("checked", "checked");
         siteLabelDOM.innerHTML = CN_LABLE;
@@ -239,10 +241,7 @@ export const renderSiteMode = async () => {
 }
 
 export const renderAll = async () => {
-    console.log("start rendering");
-    renderSiteMode();
-
-    console.log("mode rendered");
+    await renderSiteMode();
 
     const problems = Object.values(await getAllProblems());
     store.needReviewProblems = problems.filter(needReview);
@@ -258,11 +257,12 @@ export const renderAll = async () => {
     store.completedProblems.sort(problemReviewTimeComparator)
 
     renderReviewTableContent(store.needReviewProblems, 1);
-    console.log("review table rendered");
     renderScheduledTableContent(store.reviewScheduledProblems, 1);
-    console.log("scheduled table rendered");
     renderCompletedTableContent(store.completedProblems, 1);
-    console.log("completed table rendered");
 
     console.log("Element rendered.");
+
+    registerAllHandlers();
+
+    console.log("Handler registered.");
 }

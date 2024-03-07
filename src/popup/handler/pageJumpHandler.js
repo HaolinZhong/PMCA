@@ -1,6 +1,6 @@
 import { input0DOM, input1DOM, input2DOM, nextButton0DOM, nextButton1DOM, nextButton2DOM, prevButton0DOM, prevButton1DOM, prevButton2DOM } from "../util/doms";
 import { renderCompletedTableContent, renderReviewTableContent, renderScheduledTableContent } from "../view/view";
-import { store } from "./globalVars";
+import { store } from "../store";
 import { setRecordOperationHandlers } from "./recordOperationHandler";
 
 const goToPrevReviewPage = () => {
