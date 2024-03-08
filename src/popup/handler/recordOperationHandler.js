@@ -1,7 +1,8 @@
-import { checkButtonDOMs, deleteButtonDOMs, resetButtonDOMs } from "../util/doms";
+import { checkButtonDOMs, deleteButtonDOMs, resetButtonDOMs, undoButtonDOMs } from "../util/doms";
 import { store } from "../store";
 import { deleteProblem, markProblemAsMastered, resetProblem } from "../service/problemService";
 import { renderAll } from "../view/view";
+import { undoLatestOperation } from "../service/operationHistoryService";
 
 const initTooltips = () => {
     store.tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
@@ -39,5 +40,12 @@ export const setRecordOperationHandlers = () => {
             await renderAll();
         });
     }
-}
 
+    if (undoButtonDOMs !== undefined) {
+        Array.prototype.forEach.call(undoButtonDOMs, (btn) => btn.onclick = async () => {
+            hide_all_tooltips();
+            await undoLatestOperation();
+            await renderAll();
+        });
+    }
+}

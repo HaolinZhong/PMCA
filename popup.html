@@ -70,12 +70,19 @@
                 </table>
                 <!-- pagination -->
                 <nav aria-label="Page navigation example row"
-                    style="font-size: smaller; display: flex; text-align: center; justify-content: center; font-family: 'Courier Prime', monospace;">
-                    <button type="button" class="btn btn-outline-warning custom-btn" id="prevButton0">&lt;</button>
-                    <input type="text" class="form-control-sm input ms-2" id="pageInput0" style="width: 7.5%;"
-                        placeholder="1" />
-                    <label for="pageInput0" class="form-label mt-2 me-2" id="pageInputLabel0">/1</label>
-                    <button type="button" class="btn btn-outline-warning custom-btn" id="nextButton0">&gt;</button>
+                    style="font-size: smaller; display: flex; justify-content: space-between; align-items: center; text-align: center; font-family: 'Courier Prime', monospace;">
+                    <div style="display: flex; justify-content: center; align-items: center; flex-grow: 1;">
+                        <button type="button" class="btn btn-outline-warning custom-btn" id="prevButton0">&lt;</button>
+                        <input type="text" class="form-control-sm input ms-2" id="pageInput0" style="width: 7.5%;"
+                            placeholder="1" />
+                        <label for="pageInput2" class="form-label mt-2 me-2" id="pageInputLabel0">/1</label>
+                        <button type="button" class="btn btn-outline-warning custom-btn" id="nextButton0">&gt;</button>
+                    </div>
+                    <button type="button" class="btn btn-outline-warning custom-btn undo-ops-btn" id="undoOps0"
+                        data-bs-toggle="tooltip" data-bs-title="undo latest operation" data-bs-placement="left"
+                        style="display: flex; justify-content: center; align-items: center;">
+                        <small class="fa-solid fa-arrow-rotate-left fa-2xs my-2"></small>
+                    </button>
                 </nav>
             </div>
             <div class="tab-pane fade" id="no-review-pane" role="tabpanel" aria-labelledby="no-review-tab" tabindex="0">
@@ -83,12 +90,19 @@
                 </table>
                 <!-- pagination -->
                 <nav aria-label="Page navigation example row"
-                    style="font-size: smaller; display: flex; text-align: center; justify-content: center; font-family: 'Courier Prime', monospace;">
-                    <button type="button" class="btn btn-outline-warning custom-btn" id="prevButton1">&lt;</button>
-                    <input type="text" class="form-control-sm input ms-2" id="pageInput1" style="width: 7.5%;"
-                        placeholder="1" />
-                    <label for="pageInput1" class="form-label mt-2 me-2" id="pageInputLabel1">/1</label>
-                    <button type="button" class="btn btn-outline-warning custom-btn" id="nextButton1">&gt;</button>
+                    style="font-size: smaller; display: flex; justify-content: space-between; align-items: center; text-align: center; font-family: 'Courier Prime', monospace;">
+                    <div style="display: flex; justify-content: center; align-items: center; flex-grow: 1;">
+                        <button type="button" class="btn btn-outline-warning custom-btn" id="prevButton1">&lt;</button>
+                        <input type="text" class="form-control-sm input ms-2" id="pageInput1" style="width: 7.5%;"
+                            placeholder="1" />
+                        <label for="pageInput2" class="form-label mt-2 me-2" id="pageInputLabel1">/1</label>
+                        <button type="button" class="btn btn-outline-warning custom-btn" id="nextButton1">&gt;</button>
+                    </div>
+                    <button type="button" class="btn btn-outline-warning custom-btn undo-ops-btn" id="undoOps1"
+                        data-bs-toggle="tooltip" data-bs-title="undo latest operation" data-bs-placement="left"
+                        style="display: flex; justify-content: center; align-items: center;">
+                        <small class="fa-solid fa-arrow-rotate-left fa-2xs my-2"></small>
+                    </button>
                 </nav>
             </div>
             <div class="tab-pane fade" id="completed-pane" role="tabpanel" aria-labelledby="completed-tab" tabindex="0">
@@ -96,12 +110,19 @@
                 </table>
                 <!-- pagination -->
                 <nav aria-label="Page navigation example row"
-                    style="font-size: smaller; display: flex; text-align: center; justify-content: center; font-family: 'Courier Prime', monospace;">
-                    <button type="button" class="btn btn-outline-warning custom-btn" id="prevButton2">&lt;</button>
-                    <input type="text" class="form-control-sm input ms-2" id="pageInput2" style="width: 7.5%;"
-                        placeholder="1" />
-                    <label for="pageInput2" class="form-label mt-2 me-2" id="pageInputLabel2">/1</label>
-                    <button type="button" class="btn btn-outline-warning custom-btn" id="nextButton2">&gt;</button>
+                    style="font-size: smaller; display: flex; justify-content: space-between; align-items: center; text-align: center; font-family: 'Courier Prime', monospace;">
+                    <div style="display: flex; justify-content: center; align-items: center; flex-grow: 1;">
+                        <button type="button" class="btn btn-outline-warning custom-btn" id="prevButton2">&lt;</button>
+                        <input type="text" class="form-control-sm input ms-2" id="pageInput2" style="width: 7.5%;"
+                            placeholder="1" />
+                        <label for="pageInput2" class="form-label mt-2 me-2" id="pageInputLabel2">/1</label>
+                        <button type="button" class="btn btn-outline-warning custom-btn" id="nextButton2">&gt;</button>
+                    </div>
+                    <button type="button" class="btn btn-outline-warning custom-btn undo-ops-btn" id="undoOps2"
+                        data-bs-toggle="tooltip" data-bs-title="undo latest operation" data-bs-placement="left"
+                        style="display: flex; justify-content: center; align-items: center;">
+                        <small class="fa-solid fa-arrow-rotate-left fa-2xs my-2"></small>
+                    </button>
                 </nav>
             </div>
         </div>
@@ -112,35 +133,11 @@
             style="display: flex; align-items: center; justify-content: center; text-align: center; position:fixed; bottom: 0;">
             <iframe src="https://ghbtns.com/github-btn.html?user=HaolinZhong&repo=PMCA&type=star&count=true&size=large"
                 frameborder="0" scrolling="0" width="200" height="30" title="GitHub" class="col-3 mb-0"></iframe>
-            <a class="col-6 mb-0 ms-0" href="https://github.com/HaolinZhong/PMCA/issues/new" target="_blank">
+            <a class="col-9 mb-0 ms-0" href="https://github.com/HaolinZhong/PMCA/issues/new" target="_blank">
                 <button type="button" class="btn btn-outline-warning custom-btn"
-                    style="font-size: smaller; font-family: 'Courier Prime', monospace;">Request new features</button>
+                    style="font-size: smaller; font-family: 'Courier Prime', monospace;">Request new features / Report a
+                    bug</button>
             </a>
-            <div id="donateButton" class="col-2 mb-0 ms-0">
-                <a href="https://www.buymeacoffee.com/zhlien1998y" target="_blank">
-                    <img style="width: 125%;"
-                        src="https://img.buymeacoffee.com/button-api/?text=Donate&emoji=💰&slug=zhlien1998y&button_colour=ebad81&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=FFDD00" />
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal -->
-    <div class="modal fade" id="tipModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
-        style="align-items: center;justify-content: center;">
-        <div class="modal-dialog" style="display: flex; align-items: center;justify-content: center;">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">请用微信扫码</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body text-center justify-content-center">
-                    <img src="assets/wechat.png" style="width: 200px;" />
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
-                </div>
-            </div>
         </div>
     </div>
     <script type="text/javascript" src="lib/bootstrap.bundle.min.js"></script>

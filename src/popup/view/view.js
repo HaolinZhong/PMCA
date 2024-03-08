@@ -2,9 +2,10 @@ import { store } from "../store";
 import { isInCnMode } from "../service/modeService";
 import { getAllProblems } from "../service/problemService";
 import { CN_LABLE, GL_LABLE, PAGE_SIZE, months } from "../util/constants";
-import { completedTableDOM, input0DOM, input1DOM, input2DOM, inputLabel0DOM, inputLabel1DOM, inputLabel2DOM, needReviewTableDOM, nextButton0DOM, nextButton1DOM, nextButton2DOM, noReviewTableDOM, prevButton0DOM, prevButton1DOM, prevButton2DOM, siteLabelDOM, switchButtonDOM } from "../util/doms";
+import { completedTableDOM, input0DOM, input1DOM, input2DOM, inputLabel0DOM, inputLabel1DOM, inputLabel2DOM, needReviewTableDOM, nextButton0DOM, nextButton1DOM, nextButton2DOM, noReviewTableDOM, prevButton0DOM, prevButton1DOM, prevButton2DOM, siteLabelDOM, switchButtonDOM, undoButtonDOMs } from "../util/doms";
 import { calculatePageNum, decorateProblemLevel, getNextReviewTime, isCompleted, needReview, problemReviewTimeComparator, scheduledReview } from "../util/utils";
 import { registerAllHandlers } from "../handler/handlerRegister";
+import { hasOperationHistory } from "../service/operationHistoryService";
 
 /*
     Tag for problem records
@@ -28,7 +29,7 @@ const getCheckButtonTag = (problem) => `<small class="fa-regular fa-square-check
                                             style="color: #d2691e;" data-id=${problem.index}> </small>`;
 
 const getDeleteButtonTag = (problem) => `<small class="fa-regular fa-square-minus fa-2xs mt-2 mb-0 delete-btn-mark"\ 
-                                            data-bs-toggle="tooltip" data-bs-title="⛔ Delete this record (NO RECOVERY!!!)" data-bs-placement="left"\
+                                            data-bs-toggle="tooltip" data-bs-title="⛔ Delete this record" data-bs-placement="left"\
                                             style="color: red;" data-id=${problem.index}> </small>`;
 
 const getResetButtonTag = (problem) => `<small class="fa-solid fa-arrows-rotate fa-2xs mt-2 mb-0 reset-btn-mark" \
@@ -230,7 +231,6 @@ export const renderCompletedTableContent = (problems, page) => {
 
 export const renderSiteMode = async () => {
     let cnMode = await isInCnMode();
-    console.log(cnMode);
     if (cnMode) {
         switchButtonDOM.setAttribute("checked", "checked");
         siteLabelDOM.innerHTML = CN_LABLE;
@@ -239,6 +239,14 @@ export const renderSiteMode = async () => {
         siteLabelDOM.innerHTML = GL_LABLE;
     }
 }
+
+export const renderUndoButton = async () => {
+    if (await hasOperationHistory()) {
+        Array.prototype.forEach.call(undoButtonDOMs, btn => btn.removeAttribute("disabled"));
+    } else {
+        Array.prototype.forEach.call(undoButtonDOMs, btn => btn.setAttribute("disabled", "disabled"));
+    }
+} 
 
 export const renderAll = async () => {
     await renderSiteMode();
@@ -259,10 +267,7 @@ export const renderAll = async () => {
     renderReviewTableContent(store.needReviewProblems, 1);
     renderScheduledTableContent(store.reviewScheduledProblems, 1);
     renderCompletedTableContent(store.completedProblems, 1);
-
-    console.log("Element rendered.");
+    await renderUndoButton();
 
     registerAllHandlers();
-
-    console.log("Handler registered.");
 }

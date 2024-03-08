@@ -1,5 +1,7 @@
 import { getProblemInfo } from "../delegate/leetCodeDelegate";
 import { getLocalStorageData, setLocalStorageData } from "../delegate/localStorageDelegate";
+import { addNewOperationHistory, popLatestOperationHistory } from "./operationHistoryService";
+import { OPS_TYPE } from "../entity/operationHistory";
 import { forggettingCurve } from "../util/constants";
 import { CN_PROBLEM_KEY, PROBLEM_KEY } from "../util/keys";
 import { isInCnMode } from "./modeService";
@@ -7,7 +9,13 @@ import { isInCnMode } from "./modeService";
 export const getAllProblems = async () => {
     let cnMode = await isInCnMode();
     const queryKey = cnMode ? CN_PROBLEM_KEY : PROBLEM_KEY;
-    console.log(queryKey);
+    let problems = await getLocalStorageData(queryKey);
+    if (problems === undefined) problems = {};
+    return problems;
+}
+
+export const getProblemsByMode = async (useCnMode) => {
+    const queryKey = useCnMode ? CN_PROBLEM_KEY : PROBLEM_KEY;
     let problems = await getLocalStorageData(queryKey);
     if (problems === undefined) problems = {};
     return problems;
@@ -23,6 +31,11 @@ export const setProblems = async (problems) => {
     await setLocalStorageData(key, problems);
 }
 
+export const setProblemsByMode = async (problems, useCnMode) => {
+    const key = useCnMode ? CN_PROBLEM_KEY : PROBLEM_KEY;
+    await setLocalStorageData(key, problems);
+}
+
 export const createOrUpdateProblem = async (problem) => {
     const problems = await getAllProblems();
     problems[problem.index] = problem;
@@ -31,34 +44,36 @@ export const createOrUpdateProblem = async (problem) => {
 
 export const markProblemAsMastered = async (problemId) => {
     let problems = await getAllProblems();
-    console.log(problems);
     let problem = problems[problemId];
-    console.log(problem);
+
+    await addNewOperationHistory(problem, OPS_TYPE.MASTER, Date.now());
+
     problem.proficiency = forggettingCurve.length;
     problems[problemId] = problem;
 
-    let cnMode = await isInCnMode();
-    const key = cnMode ? CN_PROBLEM_KEY : PROBLEM_KEY;
-    await setLocalStorageData(key, problems);
+    await setProblems(problems);
 };
 
 export const deleteProblem = async (problemId) => {
     let problems = await getAllProblems();
+
+    await addNewOperationHistory(problems[problemId], OPS_TYPE.DELETE, Date.now());
+
     delete problems[problemId];
 
-    let cnMode = await isInCnMode();
-    const key = cnMode ? CN_PROBLEM_KEY : PROBLEM_KEY;
-    await setLocalStorageData(key, problems);
+    await setProblems(problems);
 };
 
 export const resetProblem = async (problemId) => {
     let problems = await getAllProblems();
     let problem = problems[problemId];
+
+    await addNewOperationHistory(problem, OPS_TYPE.RESET, Date.now());
+
     problem.proficiency = 0;
     problem.submissionTime = Date.now() - 24 * 60 * 60 * 1000;
     problems[problemId] = problem;
-    let cnMode = await isInCnMode();
-    const key = cnMode ? CN_PROBLEM_KEY : PROBLEM_KEY;
-    await setLocalStorageData(key, problems);
+
+    await setProblems(problems);
 };
 
