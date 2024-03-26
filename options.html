@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Options - PMCA</title>
+    <link href="lib/bootstrap.min.css" rel="stylesheet">
+    <link href="lib/fontawesome.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime&family=JetBrains+Mono:wght@200&family=Noto+Sans+SC&family=PT+Mono&family=Press+Start+2P&family=Raleway&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: bisque;
+            font-family: 'Courier Prime', 'Noto Sans SC', sans-serif;
+        }
+
+        .form-control, .btn {
+            margin-top: 10px;
+        }
+
+        .custom-control-label::before, .custom-switch .custom-control-input:checked~.custom-control-label::after {
+            background-color: chocolate;
+        }
+
+        .custom-control-input:focus:not(:checked)~.custom-control-label::before {
+            border-color: chocolate;
+        }
+
+        .custom-switch .custom-control-input:checked~.custom-control-label::before {
+            border-color: chocolate;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h3 style="font-family: 'Press Start 2P', cursive; text-align: center;" class="mb-3">Options</h3>
+        <div>
+            <!-- Example switch -->
+            <!-- <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" id="customSwitch1">
+                <label class="custom-control-label" for="customSwitch1">Enable Dark Mode</label>
+            </div> -->
+
+            <!-- Example select -->
+            <!-- <div class="form-group">
+                <label for="exampleSelect">Difficulty Level</label>
+                <select class="form-control" id="exampleSelect">
+                    <option>Easy</option>
+                    <option>Medium</option>
+                    <option>Hard</option>
+                </select>
+            </div> -->
+
+            <!-- Example input -->
+            <div class="form-group">
+                <label for="exampleTextInput">Custom Text</label>
+                <input type="text" class="form-control" id="exampleTextInput" placeholder="">
+            </div>
+
+            <!-- Save button -->
+            <button type="button" class="btn btn-outline-warning">Save Settings</button>
+        </div>
+    </div>
+    <script src="lib/bootstrap.bundle.min.js"></script>
+    <script src="lib/fontawesome.js"></script>
+</body>
+
+</html>

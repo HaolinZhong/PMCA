@@ -1,14 +1,14 @@
 import { OperationHistory } from "../entity/operationHistory"
 import { isInCnMode } from "./modeService";
 import { OPS_HISTORY_KEY } from "../util/keys";
-import { getLocalStorageData, setLocalStorageData } from "../delegate/localStorageDelegate";
+import { getStorageData, setStorageData } from "../delegate/storageDelegate";
 import { getProblemsByMode, setProblemsByMode } from "./problemService";
 
 const CACHE_SIZE = 10;
 
 export const addNewOperationHistory = async (before, type, time) => {
     const newOperationHistory = new OperationHistory(before, await isInCnMode(), type, time);
-    let opsHistory = await getLocalStorageData(OPS_HISTORY_KEY);
+    let opsHistory = await getStorageData(OPS_HISTORY_KEY);
     if (opsHistory === undefined) {
         opsHistory = [];
     }
@@ -16,17 +16,17 @@ export const addNewOperationHistory = async (before, type, time) => {
         opsHistory.shift();
     }
     opsHistory.push(newOperationHistory);
-    await setLocalStorageData(OPS_HISTORY_KEY, opsHistory);
+    await setStorageData(OPS_HISTORY_KEY, opsHistory);
 }
 
 export const popLatestOperationHistory = async () => {
-    const opsHistory = await getLocalStorageData(OPS_HISTORY_KEY);
+    const opsHistory = await getStorageData(OPS_HISTORY_KEY);
     if (opsHistory === undefined || opsHistory.length === 0) {
         return undefined;
     }
 
     const latestOpsHistory = opsHistory.pop();
-    await setLocalStorageData(OPS_HISTORY_KEY, opsHistory);
+    await setStorageData(OPS_HISTORY_KEY, opsHistory);
     return latestOpsHistory;
 }
 
@@ -42,6 +42,6 @@ export const undoLatestOperation = async () => {
 }
 
 export const hasOperationHistory = async () => {
-    const opsHistory = await getLocalStorageData(OPS_HISTORY_KEY);
+    const opsHistory = await getStorageData(OPS_HISTORY_KEY);
     return opsHistory !== undefined && opsHistory.length > 0;
 }

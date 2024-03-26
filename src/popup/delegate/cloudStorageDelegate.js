@@ -1,6 +1,6 @@
-export const getLocalStorageData = async (key) => {
+export const getCloudStorageData = async (key) => {
     return new Promise((resolve, reject) => {
-        chrome.storage.local.get(key, (result) => {
+        chrome.storage.sync.get(key, (result) => {
             if (result === undefined || result[key] === undefined) {
                 reject(key);
             } else {
@@ -12,9 +12,9 @@ export const getLocalStorageData = async (key) => {
     });
 }
 
-export const getLocalStorageDataInBatch = async (keyArr) => {
+export const getCloudStorageDataInBatch = async (keyArr) => {
     return new Promise((resolve, reject) => {
-        chrome.storage.local.get(keyArr, (result) => {
+        chrome.storage.sync.get(keyArr, (result) => {
             if (result === undefined) {
                 reject("No data found");
             } else {
@@ -26,15 +26,15 @@ export const getLocalStorageDataInBatch = async (keyArr) => {
     });
 }
 
-export const setLocalStorageData = async (key, val) => {
+export const setCloudStorageData = async (key, val) => {
     return new Promise(() => {
-        chrome.storage.local.set({ [key]: val });
+        chrome.storage.sync.set({ [key]: val });
         resolve();
     }).catch(e => console.log(e));
 }
 
-export const setLocalStorageDataInBatch = async (object) => {
+export const setCloudStorageDataInBatch = async (object) => {
     return new Promise(() => {
-        chrome.storage.local.set(object);
+        chrome.storage.sync.set(object);
     }).catch(e => console.log(e));
 }

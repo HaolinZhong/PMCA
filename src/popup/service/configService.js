@@ -1,9 +1,9 @@
-import { getLocalStorageData, setLocalStorageData } from "../delegate/localStorageDelegate"
+import { getStorageData, setStorageData } from "../delegate/storageDelegate"
 import { store } from "../store";
 import { REVIEW_INTV_KEY } from "../util/keys"
 
 export const getReviewIntervals = async () => {
-    return await getLocalStorageData(REVIEW_INTV_KEY);
+    return await getStorageData(REVIEW_INTV_KEY);
 }
 
 export const setReviewIntervals = async (customIntv) => {
@@ -12,7 +12,7 @@ export const setReviewIntervals = async (customIntv) => {
     customIntv.easyIntv = customIntv.easyIntv || easyIntv;
     customIntv.mediumIntv = customIntv.mediumIntv || mediumIntv;
     customIntv.hardIntv = customIntv.hardIntv || hardIntv;
-    await setLocalStorageData(REVIEW_INTV_KEY, customIntv);
+    await setStorageData(REVIEW_INTV_KEY, customIntv);
 }
 
 export const loadReviewIntervals = async () => {
