@@ -36,7 +36,7 @@
 
 # Get Started
 
-1. Install the PMCA extension in your web browser.
+1. Install the PMCA extension in your web browser. After the installation / If the submission is not tracked, pls try to restart your browser.
 2. Solve and submit LeetCode problems. Upon successful submission, PMCA sets the next review time for the problem based on the Ebbinghaus forgetting curve.
 3. Open PMCA to view problems that need to be reviewed now, problems scheduled for future review and mastered problems. You can use the switch in the popup page to switch between the LeetCode global site and the LeetCode CN site.
 4. Enjoy coding!
@@ -44,7 +44,7 @@
 _Currently PMCA __does not__ support tracking problem submission by `ctrl` + `Enter` Please refrain from using it now, thanks! (I will try to fix it soon (or not 🤡_. 
 
 # 用法
-1. 安装PMCA插件
+1. 安装PMCA插件. 安装完成后/若提交后没有记录, 请尝试重启浏览器, 再打开LeetCode / 力扣.
 2. 在LeetCode / 力扣中刷题. 在提交成功时, PMCA会根据艾宾浩斯遗忘曲线设定这道题目下次的复习时间.
 3. 打开PMCA查看当前待复习的题, 未来待复习的题以及已经掌握的题. 在弹出页面中可以通过滑块来在LeetCode国际版以及力扣中国版的刷题数据之间切换.
 4. 刷题快乐!
