@@ -3,9 +3,11 @@ import { isInCnMode } from "../service/modeService";
 import { getAllProblems } from "../service/problemService";
 import { CN_LABLE, GL_LABLE, PAGE_SIZE, months } from "../util/constants";
 import { completedTableDOM, input0DOM, input1DOM, input2DOM, inputLabel0DOM, inputLabel1DOM, inputLabel2DOM, needReviewTableDOM, nextButton0DOM, nextButton1DOM, nextButton2DOM, noReviewTableDOM, prevButton0DOM, prevButton1DOM, prevButton2DOM, siteLabelDOM, switchButtonDOM, undoButtonDOMs } from "../util/doms";
-import { calculatePageNum, decorateProblemLevel, getNextReviewTime, isCompleted, needReview, problemReviewTimeComparator, scheduledReview } from "../util/utils";
+import { calculatePageNum, decorateProblemLevel, getDelayedHours, getNextReviewTime, isCompleted, needReview, scheduledReview } from "../util/utils";
 import { registerAllHandlers } from "../handler/handlerRegister";
 import { hasOperationHistory } from "../service/operationHistoryService";
+import { problemSorters } from "../util/sort";
+import { loadConfigs } from "../service/configService";
 
 /*
     Tag for problem records
@@ -37,14 +39,13 @@ const getResetButtonTag = (problem) => `<small class="fa-solid fa-arrows-rotate 
                                             style="color: #d2691e;" data-id=${problem.index}> </small>`;
 
 const createReviewProblemRecord = (problem) => {
-    const nextReviewDate = getNextReviewTime(problem);
     const htmlTag =
         `\
     <tr>\
         ${getProblemUrlCell(problem)}\
         ${getProblemProgressBarCell(problem)}\
         ${getProblemLevelCell(problem)}\
-        <td><small>${Math.round((Date.now() - nextReviewDate) / (60 * 60 * 1000))} hour(s)</small></td>\
+        <td><small>${getDelayedHours(problem)} hour(s)</small></td>\
         <td style="text-align: center; vertical-align:middle">\
             ${getCheckButtonTag(problem)}\
             ${getResetButtonTag(problem)}\
@@ -249,6 +250,7 @@ export const renderUndoButton = async () => {
 } 
 
 export const renderAll = async () => {
+    await loadConfigs();
     await renderSiteMode();
 
     const problems = Object.values(await getAllProblems());
@@ -260,9 +262,9 @@ export const renderAll = async () => {
     store.scheduledMaxPage = calculatePageNum(store.reviewScheduledProblems);
     store.completedMaxPage = calculatePageNum(store.completedProblems);
 
-    store.needReviewProblems.sort(problemReviewTimeComparator);
-    store.reviewScheduledProblems.sort(problemReviewTimeComparator)
-    store.completedProblems.sort(problemReviewTimeComparator)
+    store.needReviewProblems.sort(store.problemSortBy);
+    store.reviewScheduledProblems.sort(store.problemSortBy);
+    store.completedProblems.sort(store.problemSortBy);
 
     renderReviewTableContent(store.needReviewProblems, 1);
     renderScheduledTableContent(store.reviewScheduledProblems, 1);

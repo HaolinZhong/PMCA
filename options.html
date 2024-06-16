@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>PMCA Options</title>
+    <meta charset="utf-8">
+    <link href="lib/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime&family=JetBrains+Mono:wght@200&family=Noto+Sans+SC&family=PT+Mono&family=Press+Start+2P&family=Raleway&display=swap" rel="stylesheet">
+</head>
+
+<body style="width: 500px; height: 900px; background-color:bisque;">
+    <div class="container-sm m-0">
+
+        <!-- header -->
+        <div style="display: flex;">
+            <div class="my-3 mx-0 px-0 text-center" style="flex: 1;">
+                <img src="assets/logo2.png" style="width: 100px;" />
+            </div>
+            <div class="mt-4 py-3" style="flex: 2;">
+                <h2 id="message" style="font-family: 'Press Start 2P', cursive;">PMCA Options</h2>
+            </div>
+        </div>
+
+        <!-- Options Form -->
+        <div class="multifont my-0 py-0 by-0" style="text-align: center;">
+            
+            <form id="optionsForm">
+                <label for="problemSorterSelect" class="form-label" style="font-family: 'Raleway', sans-serif; text-align: left; display: flex;">Sort Problems By</label>
+                <select class="form-select" id="problemSorterSelect" name="problemSorterSelect">
+                <!-- options.js should add sorter options to this select -->
+                </select>
+                <button type="submit" class="btn btn-outline-warning custom-btn mt-2" style="font-family: 'Courier Prime', monospace;">Save</button>
+            </form>
+            <div id="feedbackMessage" class="alert alert-success mt-3" style="display: none; text-align: center;" role="alert">
+                Options saved successfully!
+            </div>
+        </div>
+
+        <!-- footer -->
+        <div class="text-center mb-3 mt-3"
+            style="display: flex; align-items: center; justify-content: center; text-align: center; position:fixed; bottom: 0;">
+            <iframe src="https://ghbtns.com/github-btn.html?user=HaolinZhong&repo=PMCA&type=star&count=true&size=large"
+                frameborder="0" scrolling="0" width="200" height="30" title="GitHub" class="col-3 mb-0"></iframe>
+            <a class="col-9 mb-0 ms-0" href="https://github.com/HaolinZhong/PMCA/issues/new" target="_blank">
+                <button type="button" class="btn btn-outline-warning custom-btn"
+                    style="font-size: smaller; font-family: 'Courier Prime', monospace;">Request new features / Report a
+                    bug</button>
+            </a>
+        </div>
+    </div>
+    <script src="dist/options.js"></script>
+    <script type="text/javascript" src="lib/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="lib/fontawesome.js"></script>
+</body>
+
+</html>

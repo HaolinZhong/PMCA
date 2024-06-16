@@ -21,6 +21,9 @@ export const checkButtonDOMs = document.getElementsByClassName("check-btn-mark")
 export const deleteButtonDOMs = document.getElementsByClassName("delete-btn-mark");
 export const resetButtonDOMs = document.getElementsByClassName("reset-btn-mark");
 export const undoButtonDOMs = document.getElementsByClassName("undo-ops-btn");
+export const configButtonDOMs = document.getElementsByClassName("config-btn");
 
 export const siteLabelDOM = document.getElementById("siteLabel");
 export const switchButtonDOM = document.getElementById('switchButton');
+
+export const optionPageFeedbackMsgDOM = document.getElementById('feedbackMessage');
