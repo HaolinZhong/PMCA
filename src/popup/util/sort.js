@@ -21,7 +21,7 @@ export const problemSorters = {
     sortByDelayHoursAsc:    reverse(problemDelayTimeComparator)
 }
 
-const problemSorterArr = [
+export const problemSorterArr = [
     problemSorters.sortByReviewTimeAsc, 
     problemSorters.sortByReviewTimeDesc,
     problemSorters.sortByDelayHoursAsc,
@@ -35,3 +35,24 @@ export const idOf = (sorter) => {
 export const getSorterById = (id) => {
     return problemSorterArr[id];
 }
+
+export const descriptionOf = (sorter) => {
+    let description;
+    switch (sorter) {
+        case problemSorters.sortByDelayHoursAsc:
+            description = "Sort By Review Delayed Hours (ASC)";
+            break;
+        case problemSorters.sortByDelayHoursDesc:
+            description = "Sort By Review Delayed Hours (DESC)";
+            break;
+        case problemSorters.sortByReviewTimeAsc:
+            description = "Sort By Next Scheduled Review Time (ASC)";
+            break;
+        case problemSorters.sortByReviewTimeDesc:
+            description = "Sort By Next Scheduled Review Time (DESC)";
+            break;
+        default:
+            description = "";
+    }
+    return description;
+} 

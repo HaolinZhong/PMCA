@@ -5,6 +5,10 @@
     "author": "Haolin Zhong",
     "description": "PMCA tracks your LeetCode progress and prompt you to review based on Ebbinghaus's Forgetting Curve",
     "homepage_url": "https://github.com/HaolinZhong/PMCA",
+    "options_ui": {
+        "page": "options.html",
+        "open_in_tab": false  
+    },
     "icons": {
         "128": "assets/logo.png",
         "48": "assets/logo.png",

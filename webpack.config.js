@@ -1,6 +1,7 @@
 module.exports = {
     entry: {
         popup: './src/popup/popup.js',
+        options: './src/popup/options.js',
         leetcode: './src/popup/script/leetcode.js',
         leetcodecn: './src/popup/script/leetcodecn.js'
     },
