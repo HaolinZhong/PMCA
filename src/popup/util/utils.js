@@ -23,10 +23,6 @@ export const calculatePageNum = (problems) => {
     return Math.max(Math.ceil(problems.length / PAGE_SIZE), 1);;
 }
 
-export const problemReviewTimeComparator = (p1, p2) => {
-    return getNextReviewTime(p1).valueOf() - getNextReviewTime(p2).valueOf();
-}
-
 export const decorateProblemLevel = (level) => {
     let color;
     if (level === "Easy") {
@@ -41,6 +37,11 @@ export const decorateProblemLevel = (level) => {
 
 export const getNextReviewTime = (problem) => {
     return new Date(problem.submissionTime + forggettingCurve[problem.proficiency] * 60 * 1000);
+}
+
+export const getDelayedHours = (problem) => {
+    const nextReviewDate = getNextReviewTime(problem);
+    return Math.round((Date.now() - nextReviewDate) / (60 * 60 * 1000));
 }
 
 export const getDifficultyBasedSteps = (diffculty) => {

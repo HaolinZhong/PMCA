@@ -1,3 +1,5 @@
+import { problemSorters } from "./util/sort";
+
 export const store = {
     needReviewProblems: null,
     reviewScheduledProblems: null,
@@ -12,5 +14,6 @@ export const store = {
     tooltipList: null,
     easyIntv: [1, 3],
     mediumIntv: [1, 3, 4],
-    hardIntv: [0, 1, 2, 3, 4]
+    hardIntv: [0, 1, 2, 3, 4],
+    problemSortBy: problemSorters.sortByReviewTimeAsc
 }

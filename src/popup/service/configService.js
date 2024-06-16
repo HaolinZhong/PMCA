@@ -1,6 +1,9 @@
 import { getLocalStorageData, setLocalStorageData } from "../delegate/localStorageDelegate"
 import { store } from "../store";
-import { REVIEW_INTV_KEY } from "../util/keys"
+import { PROBLEM_SORT_BY_KEY, REVIEW_INTV_KEY } from "../util/keys"
+import { getSorterById, idOf, problemSorters } from "../util/sort";
+
+// configurable review intervals (to be integrated)
 
 export const getReviewIntervals = async () => {
     return await getLocalStorageData(REVIEW_INTV_KEY);
@@ -22,6 +25,23 @@ export const loadReviewIntervals = async () => {
     }
 }
 
+
+// configurable problem sort by
+export const getProblemSorter = async () => {
+    return await getLocalStorageData(PROBLEM_SORT_BY_KEY);
+}
+
+export const setProblemSorter = async (sorterId) => {
+    await setLocalStorageData(PROBLEM_SORT_BY_KEY, sorterId);
+}
+
+export const loadProblemSorter = async () => {
+    const sorterId = await getProblemSorter() | idOf(problemSorters.sortByReviewTimeAsc);
+    store.problemSortBy = getSorterById(sorterId);
+}
+
+
 export const loadConfigs = async () => {
     await loadReviewIntervals();
+    await loadProblemSorter();
 }
