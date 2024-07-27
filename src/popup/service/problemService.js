@@ -5,9 +5,8 @@ import { OPS_TYPE } from "../entity/operationHistory";
 import { forggettingCurve } from "../util/constants";
 import { CN_PROBLEM_KEY, PROBLEM_KEY } from "../util/keys";
 import { isInCnMode } from "./modeService";
-import { syncLocalAndCloudStorage } from "../delegate/storageDelegate";
 import { store } from "../store";
-import { mergeProblems } from "../util/utils";
+import { mergeProblems, syncLocalAndCloudStorage } from "../util/utils";
 
 export const getAllProblems = async () => {
     let cnMode = await isInCnMode();

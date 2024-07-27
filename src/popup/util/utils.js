@@ -1,3 +1,5 @@
+import localStorageDelegate from "../delegate/localStorageDelegate";
+import cloudStorageDelegate from "../delegate/cloudStorageDelegate";
 import { store } from "../store";
 import { COMPILE_ERROR_AND_TLE_CLASSNAME, COMPILE_ERROR_AND_TLE_CLASSNAME_CN, COMPILE_ERROR_AND_TLE_CLASSNAME_NEW, PAGE_SIZE, SUBMIT_BUTTON_ATTRIBUTE_NAME, SUBMIT_BUTTON_ATTRIBUTE_VALUE, SUCCESS_CLASSNAME, SUCCESS_CLASSNAME_CN, SUCCESS_CLASSNAME_NEW, WRONG_ANSWER_CLASSNAME, WRONG_ANSWER_CLASSNAME_CN, WRONG_ANSWER_CLASSNAME_NEW, forggettingCurve } from "./constants";
 
@@ -120,4 +122,16 @@ export const mergeProblems = (ps1, ps2) => {
     })
 
     return ps;
+}
+
+export const syncStorage = async (sd1, sd2, key, merger) => {
+    const data1 = await sd1.get(key) || {};
+    const data2 = await sd2.get(key) || {};
+    const merged = merger(data1, data2);
+    await sd1.set(key, merged);
+    await sd2.set(key, merged);
+}
+
+export const syncLocalAndCloudStorage = async (key, merger) => {
+    await syncStorage(localStorageDelegate, cloudStorageDelegate, key, merger);
 }

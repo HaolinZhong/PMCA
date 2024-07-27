@@ -44,7 +44,7 @@ export const loadProblemSorter = async () => {
 // config cloud sync
 export const isCloudSyncEnabled = async () => {
     const configs = await getLocalStorageData(CONFIG_KEY);
-    const isEnabled = configs[CONFIG_INNER_KEY_ENABLE_CLOUD];
+    const isEnabled = configs !== undefined ? configs[CONFIG_INNER_KEY_ENABLE_CLOUD] : false;
     if (isEnabled === undefined) {
         isEnabled = false;
     }
@@ -62,7 +62,9 @@ export const switchCloudSyncEnabled = async () => {
 }
 
 export const setCloudSyncEnabled = async (isEnabled) => {
-    const configs = await getLocalStorageData(CONFIG_KEY);
+    const configs = await getLocalStorageData(CONFIG_KEY) || {
+        CONFIG_INNER_KEY_ENABLE_CLOUD: false
+    };
     configs[CONFIG_INNER_KEY_ENABLE_CLOUD] = isEnabled;
     await setLocalStorageData(CONFIG_KEY, configs);
 }

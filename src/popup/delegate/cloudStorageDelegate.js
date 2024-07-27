@@ -1,12 +1,5 @@
-class CloudStorageDelegate extends StorageDelegate {
-    constructor(){
-        this.get = getCloudStorageData;
-        this.set = setCloudStorageData;
-    }
-}
+import { StorageDelegate } from "./storageDelegate";
 
-const cloudStorageDelegate = new CloudStorageDelegate();
-export default cloudStorageDelegate;
 
 const getCloudStorageData = async (key) => {
     return new Promise((resolve, reject) => {
@@ -28,3 +21,14 @@ const setCloudStorageData = async (key, val) => {
         resolve();
     }).catch(e => console.log(e));
 }
+
+class CloudStorageDelegate extends StorageDelegate {
+    constructor(){
+        super();
+        this.get = getCloudStorageData;
+        this.set = setCloudStorageData;
+    }
+}
+
+const cloudStorageDelegate = new CloudStorageDelegate();
+export default cloudStorageDelegate;
