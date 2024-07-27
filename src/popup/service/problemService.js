@@ -1,10 +1,13 @@
 import { getProblemInfo } from "../delegate/leetCodeDelegate";
 import { getLocalStorageData, setLocalStorageData } from "../delegate/localStorageDelegate";
-import { addNewOperationHistory, popLatestOperationHistory } from "./operationHistoryService";
+import { addNewOperationHistory } from "./operationHistoryService";
 import { OPS_TYPE } from "../entity/operationHistory";
 import { forggettingCurve } from "../util/constants";
 import { CN_PROBLEM_KEY, PROBLEM_KEY } from "../util/keys";
 import { isInCnMode } from "./modeService";
+import { syncLocalAndCloudStorage } from "../delegate/storageDelegate";
+import { store } from "../store";
+import { mergeProblems } from "../util/utils";
 
 export const getAllProblems = async () => {
     let cnMode = await isInCnMode();
@@ -37,6 +40,7 @@ export const setProblemsByMode = async (problems, useCnMode) => {
 }
 
 export const createOrUpdateProblem = async (problem) => {
+    problem.modificationTime = Date.now();
     const problems = await getAllProblems();
     problems[problem.index] = problem;
     await setProblems(problems);
@@ -49,6 +53,8 @@ export const markProblemAsMastered = async (problemId) => {
     await addNewOperationHistory(problem, OPS_TYPE.MASTER, Date.now());
 
     problem.proficiency = forggettingCurve.length;
+    problem.modificationTime = Date.now();
+
     problems[problemId] = problem;
 
     await setProblems(problems);
@@ -72,8 +78,16 @@ export const resetProblem = async (problemId) => {
 
     problem.proficiency = 0;
     problem.submissionTime = Date.now() - 24 * 60 * 60 * 1000;
+    problem.modificationTime = Date.now();
+
     problems[problemId] = problem;
 
     await setProblems(problems);
 };
 
+export const syncProblems = async () => {
+    if (!store.isCloudSyncEnabled) return;
+    let cnMode = await isInCnMode();
+    const key = cnMode ? CN_PROBLEM_KEY : PROBLEM_KEY;
+    await syncLocalAndCloudStorage(key, mergeProblems);
+}

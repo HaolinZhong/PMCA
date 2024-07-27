@@ -31,8 +31,16 @@
                 <select class="form-select" id="problemSorterSelect" name="problemSorterSelect">
                 <!-- options.js should add sorter options to this select -->
                 </select>
+
+                <div class="form-check form-switch mt-3">
+                    <input class="form-check-input" type="checkbox" id="syncToggle">
+                    <label class="form-check-label" for="syncToggle" style="font-family: 'Raleway', sans-serif;">Enable Cloud Sync</label>
+                </div>
+
                 <button type="submit" class="btn btn-outline-warning custom-btn mt-2" style="font-family: 'Courier Prime', monospace;">Save</button>
             </form>
+
+
             <div id="feedbackMessage" class="alert alert-success mt-3" style="display: none; text-align: center;" role="alert">
                 Options saved successfully!
             </div>

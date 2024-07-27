@@ -94,5 +94,30 @@ export const updateProblemUponSuccessSubmission = (problem) => {
         problem.proficiency = forggettingCurve.length;
     }
     problem.submissionTime = Date.now();
+    problem.modificationTime = Date.now();
     return problem;
+}
+
+// for sync data over cloud & local
+export const mergeProblem = (p1, p2) => {
+    if (p2 === undefined || p2 === null) return p1;
+    if (p1 === undefined || p1 === null) return p2;
+    if (p2.modificationTime === undefined || p2.modificationTime === null) return p1;
+    if (p1.modificationTime === undefined || p1.modificationTime === null) return p2;
+
+    return p1.modificationTime > p2.modificationTime ? p1 : p2;
+}
+
+export const mergeProblems = (ps1, ps2) => {
+    const problemIdSet = new Set([...Object.keys(ps1), ...Object.keys(ps2)]);
+    const ps = {}
+    problemIdSet.forEach(id => {
+        const p1 = ps1[id], p2 = ps2[id];
+        const p = mergeProblem(p1, p2);
+        if (p !== undefined) {
+            ps[id] = p
+        }
+    })
+
+    return ps;
 }

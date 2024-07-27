@@ -4,3 +4,5 @@ export const PROBLEM_KEY = 'records';
 export const REVIEW_INTV_KEY = 'review_intervals';
 export const OPS_HISTORY_KEY = 'operation_history';
 export const PROBLEM_SORT_BY_KEY = 'problem_sort_by';
+export const CONFIG_KEY = 'configs';
+export const CONFIG_INNER_KEY_ENABLE_CLOUD = 'enable_cloud';

@@ -1,4 +1,16 @@
-export const getLocalStorageData = async (key) => {
+import { StorageDelegate } from "./storageDelegate";
+
+class LocalStorageDelegate extends StorageDelegate {
+    constructor(){
+        this.get = getLocalStorageData;
+        this.set = setLocalStorageData;
+    }
+}
+
+const localStorageDelegate = new LocalStorageDelegate();
+export default localStorageDelegate;
+
+const getLocalStorageData = async (key) => {
     return new Promise((resolve, reject) => {
         chrome.storage.local.get(key, (result) => {
             if (result === undefined || result[key] === undefined) {
@@ -12,7 +24,7 @@ export const getLocalStorageData = async (key) => {
     });
 }
 
-export const setLocalStorageData = async (key, val) => {
+const setLocalStorageData = async (key, val) => {
     return new Promise(() => {
         chrome.storage.local.set({ [key]: val });
         resolve();
