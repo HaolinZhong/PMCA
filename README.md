@@ -57,9 +57,9 @@ _目前PMCA __暂不__ 支持记录通过 `ctrl` + `Enter`键提交的问题. �
 - ✅ ~~support features like `mark as mastered`, `reset progress`~~
 - 🚫 support auto sync 力扣 submission to github (won't do)
 - ✅ ~~refractor with webpack for scalability~~
+- ✅ ~~support sync data across devices~~ 
 - 🔲 inject a button in the LeetCode nav bar
 - 🔲 support customized configuration of review intervals
-- 🔲 support sync data across devices 
 - 🔲 support tracking submission by `ctrl` + `Enter` in the "Dynamic Layout"
 - 🔲 support importing previous submission records
 
