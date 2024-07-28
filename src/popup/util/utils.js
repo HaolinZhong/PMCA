@@ -125,6 +125,7 @@ export const mergeProblems = (ps1, ps2) => {
 }
 
 export const syncStorage = async (sd1, sd2, key, merger) => {
+    if (!store.isCloudSyncEnabled) return;
     const data1 = await sd1.get(key) || {};
     const data2 = await sd2.get(key) || {};
     const merged = merger(data1, data2);
