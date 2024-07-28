@@ -27,3 +27,5 @@ export const siteLabelDOM = document.getElementById("siteLabel");
 export const switchButtonDOM = document.getElementById('switchButton');
 
 export const optionPageFeedbackMsgDOM = document.getElementById('feedbackMessage');
+
+export const popupPageDOM = document.defaultView;

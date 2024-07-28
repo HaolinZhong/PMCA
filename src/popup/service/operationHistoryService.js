@@ -3,11 +3,14 @@ import { isInCnMode } from "./modeService";
 import { OPS_HISTORY_KEY } from "../util/keys";
 import { getLocalStorageData, setLocalStorageData } from "../delegate/localStorageDelegate";
 import { getProblemsByMode, setProblemsByMode } from "./problemService";
+import { copy } from "../entity/problem";
 
 const CACHE_SIZE = 10;
 
 export const addNewOperationHistory = async (before, type, time) => {
-    const newOperationHistory = new OperationHistory(before, await isInCnMode(), type, time);
+    const snapShot = copy(before);
+    snapShot.isDeleted = false;
+    const newOperationHistory = new OperationHistory(snapShot, await isInCnMode(), type, time);
     let opsHistory = await getLocalStorageData(OPS_HISTORY_KEY);
     if (opsHistory === undefined) {
         opsHistory = [];
@@ -36,6 +39,8 @@ export const undoLatestOperation = async () => {
         return;
     }
     const { before: problemBefore, isInCnMode } = operationHistory;
+    problemBefore.modificationTime = Date.now();    // need to update the mod time to make this latest change to override cloud data
+
     const problems = await getProblemsByMode(isInCnMode);
     problems[problemBefore.index] = problemBefore;
     await setProblemsByMode(problems, isInCnMode);

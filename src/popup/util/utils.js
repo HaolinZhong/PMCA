@@ -1,3 +1,5 @@
+import localStorageDelegate from "../delegate/localStorageDelegate";
+import cloudStorageDelegate from "../delegate/cloudStorageDelegate";
 import { store } from "../store";
 import { COMPILE_ERROR_AND_TLE_CLASSNAME, COMPILE_ERROR_AND_TLE_CLASSNAME_CN, COMPILE_ERROR_AND_TLE_CLASSNAME_NEW, PAGE_SIZE, SUBMIT_BUTTON_ATTRIBUTE_NAME, SUBMIT_BUTTON_ATTRIBUTE_VALUE, SUCCESS_CLASSNAME, SUCCESS_CLASSNAME_CN, SUCCESS_CLASSNAME_NEW, WRONG_ANSWER_CLASSNAME, WRONG_ANSWER_CLASSNAME_CN, WRONG_ANSWER_CLASSNAME_NEW, forggettingCurve } from "./constants";
 
@@ -94,5 +96,44 @@ export const updateProblemUponSuccessSubmission = (problem) => {
         problem.proficiency = forggettingCurve.length;
     }
     problem.submissionTime = Date.now();
+    problem.modificationTime = Date.now();
     return problem;
+}
+
+// for sync data over cloud & local
+export const mergeProblem = (p1, p2) => {
+    if (p2 === undefined || p2 === null) return p1;
+    if (p1 === undefined || p1 === null) return p2;
+    if (p2.modificationTime === undefined || p2.modificationTime === null) return p1;
+    if (p1.modificationTime === undefined || p1.modificationTime === null) return p2;
+
+    return p1.modificationTime > p2.modificationTime ? p1 : p2;
+}
+
+export const mergeProblems = (ps1, ps2) => {
+    const problemIdSet = new Set([...Object.keys(ps1), ...Object.keys(ps2)]);
+    const ps = {}
+    problemIdSet.forEach(id => {
+        const p1 = ps1[id], p2 = ps2[id];
+        const p = mergeProblem(p1, p2);
+        ps[id] = p;
+    })
+
+    return ps;
+}
+
+export const syncStorage = async (sd1, sd2, key, merger) => {
+    if (!store.isCloudSyncEnabled) return;
+    const data1 = await sd1.get(key) || {};
+    const data2 = await sd2.get(key) || {};
+    const merged = merger(data1, data2);
+
+    console.log(data1);
+    console.log(data2);
+    await sd1.set(key, merged);
+    await sd2.set(key, merged);
+}
+
+export const syncLocalAndCloudStorage = async (key, merger) => {
+    await syncStorage(localStorageDelegate, cloudStorageDelegate, key, merger);
 }

@@ -2,7 +2,7 @@ import { getLocalStorageData, setLocalStorageData } from "../delegate/localStora
 import { CN_MODE } from "../util/keys"
 
 export const isInCnMode = async () => {
-    const cnMode = await getLocalStorageData(CN_MODE);
+    let cnMode = await getLocalStorageData(CN_MODE);
     console.log(`current cnMode is ${cnMode}`);
     if (cnMode === undefined) {
         await setLocalStorageData(CN_MODE, false);

@@ -1,5 +1,5 @@
 import { getDifficultyBasedSteps, getSubmissionResult, isSubmissionSuccess, isSubmitButton, needReview, updateProblemUponSuccessSubmission } from "../util/utils";
-import { getAllProblems, createOrUpdateProblem, getCurrentProblemInfoFromLeetCode } from "../service/problemService";
+import { getAllProblems, createOrUpdateProblem, getCurrentProblemInfoFromLeetCode, syncProblems } from "../service/problemService";
 import { Problem } from "../entity/problem";
 
 /* 
@@ -27,23 +27,24 @@ const monitorSubmissionResult = () => {
 
         clearInterval(functionId);
         let isSuccess = isSubmissionSuccess(submissionResult);
-        const { problemIndex, problemName, problemLevel, problemUrl } = await getCurrentProblemInfoFromLeetCode();
 
-        
+        if (!isSuccess) return;
+
+        const { problemIndex, problemName, problemLevel, problemUrl } = await getCurrentProblemInfoFromLeetCode();
+        await syncProblems();   // prior to fetch local problem data, sync local problem data with cloud
         const problems = await getAllProblems();
+        let problem = problems[problemIndex];
         
-        if (problems[problemIndex]) {
-            const problem = problems[problemIndex];
+        if (problem && problem.isDeleted !== true) {
             const reviewNeeded = needReview(problem);
-            if (reviewNeeded && isSuccess) {
+            if (reviewNeeded) {
                 await createOrUpdateProblem(updateProblemUponSuccessSubmission(problem));
             }
         } else {
-            if (isSuccess) {
-                const problem = new Problem(problemIndex, problemName, problemLevel, problemUrl, Date.now(), getDifficultyBasedSteps(problemLevel)[0]);
-                await createOrUpdateProblem(problem);
-            }
+            problem = new Problem(problemIndex, problemName, problemLevel, problemUrl, Date.now(), getDifficultyBasedSteps(problemLevel)[0], Date.now());
+            await createOrUpdateProblem(problem);
         }
+        await syncProblems(); // after problem updated, sync to cloud
 
         console.log("Submission successfully tracked!");
 

@@ -8,6 +8,42 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Courier+Prime&family=JetBrains+Mono:wght@200&family=Noto+Sans+SC&family=PT+Mono&family=Press+Start+2P&family=Raleway&display=swap" rel="stylesheet">
+    <style>
+        .form-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            flex: 0 1 auto;
+            font-family: 'Raleway', sans-serif;
+            margin-right: 1rem;
+        }
+
+        .form-group .form-control,
+        .form-group .form-check-input {
+            flex: 1;
+            max-width: 70%;
+        }
+
+        .form-check {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .form-check label {
+            flex: 0 1 auto;
+            font-family: 'Raleway', sans-serif;
+            margin-right: 1rem;
+        }
+
+        .form-check input {
+            flex: 0 1 auto;
+        }
+    </style>
 </head>
 
 <body style="width: 500px; height: 900px; background-color:bisque;">
@@ -27,14 +63,33 @@
         <div class="multifont my-0 py-0 by-0" style="text-align: center;">
             
             <form id="optionsForm">
-                <label for="problemSorterSelect" class="form-label" style="font-family: 'Raleway', sans-serif; text-align: left; display: flex;">Sort Problems By</label>
-                <select class="form-select" id="problemSorterSelect" name="problemSorterSelect">
-                <!-- options.js should add sorter options to this select -->
-                </select>
-                <button type="submit" class="btn btn-outline-warning custom-btn mt-2" style="font-family: 'Courier Prime', monospace;">Save</button>
+                <div class="form-group">
+                    <label for="problemSorterSelect" class="form-label">Sort Problems By</label>
+                    <select class="form-select form-control" id="problemSorterSelect" name="problemSorterSelect">
+                        <!-- options.js should add sorter options to this select -->
+                    </select>
+                </div>
+
+                <div class="form-check form-switch">
+                    <label class="form-check-label" for="syncToggle">Enable Cloud Sync (⚠️experimental feature⚠️)</label>
+                    <input class="form-check-input custom-switch" type="checkbox" id="syncToggle">
+                </div>
+                <div style="font-size: smaller; text-align: left;">
+                    <small><b>p.s.</b> ⚠️For 2 or more devices to share the problem data, all of them should: 1.enable cloud sync, 2.login to chrome with the same user, 3.enable <a target="#" href="https://support.google.com/chrome/answer/185277?hl=en&co=GENIE.Platform%3DAndroid#zippy=%2Csign-in-turn-on-sync">chrome sync</a> ⚠️</small>
+                </div>
+                <div style="font-size: smaller; text-align: left;">
+                    <small><b>p.s.s.</b> The feature does not have a robust concensus algorithm backing it up, but it should be able to cover normal use cases😎. Feel free to report bugs!</small>
+                </div>
+                <div style="font-size: smaller; text-align: left;">
+                    <small><b>p.s.s.s.</b> I tried my best to align this option to the leftmost but I gave up eventually. That's why I only do backend in my real job😅.</small>
+                </div>
+                
+
+                <button type="submit" class="btn btn-outline-warning custom-btn mt-5" style="font-family: 'Courier Prime', monospace;">Save</button>
             </form>
+
             <div id="feedbackMessage" class="alert alert-success mt-3" style="display: none; text-align: center;" role="alert">
-                Options saved successfully!
+                Options are successfully saved!
             </div>
         </div>
 

@@ -9,9 +9,13 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
-    "release": "npm run build && node ./deploy/zip.js",
+    "manifest:dev": "cross-env NODE_ENV=dev node ./deploy/generate-manifest.js",
+    "manifest:prod": "cross-env NODE_ENV=prod node ./deploy/generate-manifest.js",
+    "release:dev": "npm run build && npm run manifest:dev && node ./deploy/zip.js",
+    "release:prod": "npm run build && npm run manifest:prod && node ./deploy/zip.js",
     "clear": "node ./deploy/clear.js",
-    "local-deploy": "npm run clear && npm run build && npm run release && node ./deploy/unzip.js"
+    "deploy:dev": "npm run clear && npm run release:dev && node ./deploy/unzip.js",
+    "deploy:prod": "npm run clear && npm run release:prod && node ./deploy/unzip.js"
   },
   "repository": {
     "type": "git",
@@ -31,5 +35,8 @@
     "style-loader": "^3.3.3",
     "webpack": "^5.89.0",
     "webpack-cli": "^5.1.4"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3"
   }
 }
