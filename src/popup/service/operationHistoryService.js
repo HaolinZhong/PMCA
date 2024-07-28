@@ -3,11 +3,14 @@ import { isInCnMode } from "./modeService";
 import { OPS_HISTORY_KEY } from "../util/keys";
 import { getLocalStorageData, setLocalStorageData } from "../delegate/localStorageDelegate";
 import { getProblemsByMode, setProblemsByMode } from "./problemService";
+import { copy } from "../entity/problem";
 
 const CACHE_SIZE = 10;
 
 export const addNewOperationHistory = async (before, type, time) => {
-    const newOperationHistory = new OperationHistory(before, await isInCnMode(), type, time);
+    const snapShot = copy(before);
+    snapShot.isDeleted = false;
+    const newOperationHistory = new OperationHistory(snapShot, await isInCnMode(), type, time);
     let opsHistory = await getLocalStorageData(OPS_HISTORY_KEY);
     if (opsHistory === undefined) {
         opsHistory = [];

@@ -8,7 +8,7 @@ import { isInCnMode } from "./modeService";
 import { store } from "../store";
 import { mergeProblems, syncLocalAndCloudStorage } from "../util/utils";
 import cloudStorageDelegate from "../delegate/cloudStorageDelegate";
-import { getDeletedProblem } from "../entity/problem";
+import { copy, getDeletedProblem } from "../entity/problem";
 
 export const getAllProblems = async () => {
     let cnMode = await isInCnMode();
@@ -84,7 +84,7 @@ export const deleteProblem = async (problemId) => {
     if (problem) {
         problem.isDeleted = true;
         problem.modificationTime = Date.now();
-        await addNewOperationHistory(problems[problemId], OPS_TYPE.DELETE, Date.now());
+        await addNewOperationHistory(problem, OPS_TYPE.DELETE, Date.now());
         problems[problemId] = problem;
         await setProblems(problems);
     }

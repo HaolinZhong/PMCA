@@ -116,9 +116,7 @@ export const mergeProblems = (ps1, ps2) => {
     problemIdSet.forEach(id => {
         const p1 = ps1[id], p2 = ps2[id];
         const p = mergeProblem(p1, p2);
-        if (p !== undefined && !p.isDeleted) {
-            ps[id] = p;
-        }
+        ps[id] = p;
     })
 
     return ps;
@@ -129,6 +127,9 @@ export const syncStorage = async (sd1, sd2, key, merger) => {
     const data1 = await sd1.get(key) || {};
     const data2 = await sd2.get(key) || {};
     const merged = merger(data1, data2);
+
+    console.log(data1);
+    console.log(data2);
     await sd1.set(key, merged);
     await sd2.set(key, merged);
 }

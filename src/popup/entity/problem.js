@@ -15,4 +15,8 @@ export const getDeletedProblem = (problemId) => {
     const deletedProblem = new Problem(problemId, '', '', '', 0, 0, Date.now());
     deletedProblem.isDeleted = true;
     return deletedProblem;
-} 
+}
+
+export const copy = (p) => {
+    return new Problem(p.index, p.name, p.level, p.url, p.submissionTime, p.proficiency, p.modificationTime, p.isDeleted);
+}
