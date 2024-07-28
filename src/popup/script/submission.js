@@ -35,7 +35,7 @@ const monitorSubmissionResult = () => {
         const problems = await getAllProblems();
         let problem = problems[problemIndex];
         
-        if (problem && !problem.isDeleted) {
+        if (problem && problem.isDeleted !== true) {
             const reviewNeeded = needReview(problem);
             if (reviewNeeded) {
                 await createOrUpdateProblem(updateProblemUponSuccessSubmission(problem));
