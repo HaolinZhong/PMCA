@@ -116,8 +116,8 @@ export const mergeProblems = (ps1, ps2) => {
     problemIdSet.forEach(id => {
         const p1 = ps1[id], p2 = ps2[id];
         const p = mergeProblem(p1, p2);
-        if (p !== undefined) {
-            ps[id] = p
+        if (p !== undefined && !p.isDeleted) {
+            ps[id] = p;
         }
     })
 

@@ -7,11 +7,21 @@ import { CN_PROBLEM_KEY, PROBLEM_KEY } from "../util/keys";
 import { isInCnMode } from "./modeService";
 import { store } from "../store";
 import { mergeProblems, syncLocalAndCloudStorage } from "../util/utils";
+import cloudStorageDelegate from "../delegate/cloudStorageDelegate";
+import { getDeletedProblem } from "../entity/problem";
 
 export const getAllProblems = async () => {
     let cnMode = await isInCnMode();
     const queryKey = cnMode ? CN_PROBLEM_KEY : PROBLEM_KEY;
     let problems = await getLocalStorageData(queryKey);
+    if (problems === undefined) problems = {};
+    return problems;
+}
+
+export const getAllProblemsInCloud = async () => {
+    let cnMode = await isInCnMode();
+    const queryKey = cnMode ? CN_PROBLEM_KEY : PROBLEM_KEY;
+    let problems = await cloudStorageDelegate.get(queryKey);
     if (problems === undefined) problems = {};
     return problems;
 }
@@ -31,6 +41,12 @@ export const setProblems = async (problems) => {
     let cnMode = await isInCnMode();
     const key = cnMode ? CN_PROBLEM_KEY : PROBLEM_KEY;
     await setLocalStorageData(key, problems);
+}
+
+export const setProblemsToCloud = async (problems) => {
+    let cnMode = await isInCnMode();
+    const key = cnMode ? CN_PROBLEM_KEY : PROBLEM_KEY;
+    await cloudStorageDelegate.set(key, problems);
 }
 
 export const setProblemsByMode = async (problems, useCnMode) => {
@@ -60,24 +76,30 @@ export const markProblemAsMastered = async (problemId) => {
 };
 
 export const deleteProblem = async (problemId) => {
-    let problems = await getAllProblems();
 
+    let problems = await getAllProblems();
     await addNewOperationHistory(problems[problemId], OPS_TYPE.DELETE, Date.now());
 
     delete problems[problemId];
 
     await setProblems(problems);
+
+    if (store.isCloudSyncEnabled) {
+        // delete is special. It has a conflicting logic with sync local & cloud.
+        // so must manually do a double deletion
+        await deleteProblemInCloud(problemId);
+    }
 };
 
 export const resetProblem = async (problemId) => {
     let problems = await getAllProblems();
     let problem = problems[problemId];
 
-    await addNewOperationHistory(problem, OPS_TYPE.RESET, Date.now());
-
     problem.proficiency = 0;
     problem.submissionTime = Date.now() - 24 * 60 * 60 * 1000;
     problem.modificationTime = Date.now();
+
+    await addNewOperationHistory(problem, OPS_TYPE.RESET, Date.now());
 
     problems[problemId] = problem;
 
@@ -88,5 +110,11 @@ export const syncProblems = async () => {
     if (!store.isCloudSyncEnabled) return;
     let cnMode = await isInCnMode();
     const key = cnMode ? CN_PROBLEM_KEY : PROBLEM_KEY;
-    await syncLocalAndCloudStorage(key, mergeProblems);
+    await syncLocalAndCloudStorage(key, mergeProblems); 
+}
+
+export const deleteProblemInCloud = async (problemId) => {
+    let problems = await getAllProblemsInCloud();
+    problems[problemId] = getDeletedProblem(problemId);
+    await setProblemsToCloud(problems);
 }

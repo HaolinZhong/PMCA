@@ -36,6 +36,8 @@ export const undoLatestOperation = async () => {
         return;
     }
     const { before: problemBefore, isInCnMode } = operationHistory;
+    problemBefore.modificationTime = Date.now();    // need to update the mod time to make this latest change to override cloud data
+
     const problems = await getProblemsByMode(isInCnMode);
     problems[problemBefore.index] = problemBefore;
     await setProblemsByMode(problems, isInCnMode);
