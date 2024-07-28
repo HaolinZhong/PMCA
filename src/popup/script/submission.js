@@ -33,15 +33,15 @@ const monitorSubmissionResult = () => {
         const { problemIndex, problemName, problemLevel, problemUrl } = await getCurrentProblemInfoFromLeetCode();
         await syncProblems();   // prior to fetch local problem data, sync local problem data with cloud
         const problems = await getAllProblems();
+        let problem = problems[problemIndex];
         
-        if (problems[problemIndex]) {
-            const problem = problems[problemIndex];
+        if (problem && !problem.isDeleted) {
             const reviewNeeded = needReview(problem);
             if (reviewNeeded) {
                 await createOrUpdateProblem(updateProblemUponSuccessSubmission(problem));
             }
         } else {
-            const problem = new Problem(problemIndex, problemName, problemLevel, problemUrl, Date.now(), getDifficultyBasedSteps(problemLevel)[0]);
+            problem = new Problem(problemIndex, problemName, problemLevel, problemUrl, Date.now(), getDifficultyBasedSteps(problemLevel)[0], Date.now());
             await createOrUpdateProblem(problem);
         }
         await syncProblems(); // after problem updated, sync to cloud

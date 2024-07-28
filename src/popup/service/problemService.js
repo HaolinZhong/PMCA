@@ -78,16 +78,15 @@ export const markProblemAsMastered = async (problemId) => {
 export const deleteProblem = async (problemId) => {
 
     let problems = await getAllProblems();
-    await addNewOperationHistory(problems[problemId], OPS_TYPE.DELETE, Date.now());
-
-    delete problems[problemId];
-
-    await setProblems(problems);
-
-    if (store.isCloudSyncEnabled) {
-        // delete is special. It has a conflicting logic with sync local & cloud.
-        // so must manually do a double deletion
-        await deleteProblemInCloud(problemId);
+    const problem = problems[problemId];
+    
+    // soft delete
+    if (problem) {
+        problem.isDeleted = true;
+        problem.modificationTime = Date.now();
+        await addNewOperationHistory(problems[problemId], OPS_TYPE.DELETE, Date.now());
+        problems[problemId] = problem;
+        await setProblems(problems);
     }
 };
 
@@ -111,10 +110,4 @@ export const syncProblems = async () => {
     let cnMode = await isInCnMode();
     const key = cnMode ? CN_PROBLEM_KEY : PROBLEM_KEY;
     await syncLocalAndCloudStorage(key, mergeProblems); 
-}
-
-export const deleteProblemInCloud = async (problemId) => {
-    let problems = await getAllProblemsInCloud();
-    problems[problemId] = getDeletedProblem(problemId);
-    await setProblemsToCloud(problems);
 }

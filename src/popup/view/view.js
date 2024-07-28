@@ -253,7 +253,7 @@ export const renderAll = async () => {
     await renderSiteMode();
     await syncProblems();
 
-    const problems = Object.values(await getAllProblems());
+    const problems = Object.values(await getAllProblems()).filter(p => p.isDeleted !== true);
     store.needReviewProblems = problems.filter(needReview);
     store.reviewScheduledProblems = problems.filter(scheduledReview);
     store.completedProblems = problems.filter(isCompleted);

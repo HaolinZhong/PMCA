@@ -16,6 +16,10 @@ const getCloudStorageData = async (key) => {
 }
 
 const setCloudStorageData = async (key, val) => {
+
+    console.log("set to cloud");
+    console.log([key, val]);
+
     return new Promise((resolve) => {
         chrome.storage.sync.set({ [key]: val });
         resolve();
