@@ -128,7 +128,9 @@ export const syncStorage = async (sd1, sd2, key, merger) => {
     const data2 = await sd2.get(key) || {};
     const merged = merger(data1, data2);
 
+    console.log("merging data from local and from cloud. local:")
     console.log(data1);
+    console.log("merging data from local and from cloud. cloud:")
     console.log(data2);
     await sd1.set(key, merged);
     await sd2.set(key, merged);
@@ -136,4 +138,14 @@ export const syncStorage = async (sd1, sd2, key, merger) => {
 
 export const syncLocalAndCloudStorage = async (key, merger) => {
     await syncStorage(localStorageDelegate, cloudStorageDelegate, key, merger);
+}
+
+export const simpleStringHash = (key) => {
+    let hash = 0;
+    for (let i = 0; i < key.length; i++) {
+        const char = key.charCodeAt(i);
+        hash = (hash << 5) - hash + char;
+        hash |= 0;
+    }
+    return hash;
 }
