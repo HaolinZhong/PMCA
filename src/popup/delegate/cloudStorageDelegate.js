@@ -57,7 +57,7 @@ const shardCount = 20;
 const hashKeyToShardIdx = (key) => {
     const hash = simpleStringHash(key);
     const shardIndex = (hash % shardCount + shardCount) % shardCount;
-    return `${key}#${shardIndex}`;
+    return shardIndex;
 }
 
 const isJsonObj = (obj) => {
