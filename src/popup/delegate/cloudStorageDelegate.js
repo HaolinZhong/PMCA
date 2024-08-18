@@ -54,7 +54,7 @@ const batchGetCloudStorageDate = async (keyArr) => {
 
 const shardCount = 20;
 
-const hashKeyToShardKey = (key) => {
+const hashKeyToShardIdx = (key) => {
     const hash = simpleStringHash(key);
     const shardIndex = (hash % shardCount + shardCount) % shardCount;
     return `${key}#${shardIndex}`;
@@ -72,13 +72,15 @@ const shardedSetCloudStorageData = async (key, val) => {
     const shardedVal = {};
     const objectKeys = Object.keys(val);
     Array.prototype.forEach.call(objectKeys, (objKey) => {
-        const shardedKey = hashKeyToShardKey(objKey);
+        const shardedIdx = hashKeyToShardIdx(objKey);
+        const shardedKey = `${key}#${shardedIdx}`;
         if (!(shardedKey in shardedVal)) {
             shardedVal[shardedKey] = {};
         }
         shardedVal[shardedKey][objKey] = val[objKey];
     })
     
+    console.log("set shareded data to cloud:");
     console.log(shardedVal);
 
     await batchSetCloudStorageDate(shardedVal);
@@ -97,6 +99,7 @@ const shardedGetCloudStorageData = async (key) => {
     for (const shardKey in vals) {
         Object.assign(res, vals[shardKey]);
     } 
+    console.log(`get ${key} sharded from cloud`)
     console.log(res);
     return res;
 }
