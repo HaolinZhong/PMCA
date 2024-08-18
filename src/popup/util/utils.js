@@ -137,3 +137,13 @@ export const syncStorage = async (sd1, sd2, key, merger) => {
 export const syncLocalAndCloudStorage = async (key, merger) => {
     await syncStorage(localStorageDelegate, cloudStorageDelegate, key, merger);
 }
+
+export const simpleStringHash = (key) => {
+    let hash = 0;
+    for (let i = 0; i < key.length; i++) {
+        const char = key.charCodeAt(i);
+        hash = (hash << 5) - hash + char;
+        hash |= 0;
+    }
+    return hash;
+}
